@@ -7,11 +7,11 @@ import handleError from './handleError.js'
 
 // 25422 is an interesting example, 35 is a highlight
 
-const metMuseum = axios.create({ baseURL: "https://collectionapi.metmuseum.org/" })
+const metMuseum = axios.create({ baseURL: "https://collectionapi.metmuseum.org/public/" })
 
 const getValidObjectNumbers = () => {
     // returns an array of numbers
-    return metMuseum.get("/public/collection/v1/objects")
+    return metMuseum.get("/collection/v1/objects")
         .then((response) => {
             return response.data.objectIDs
         })
@@ -20,7 +20,7 @@ const getValidObjectNumbers = () => {
 
 const getTotalObjectNumbers = () => {
     // returns a single number
-    return metMuseum.get("/public/collection/v1/objects")
+    return metMuseum.get("/collection/v1/objects")
         .then((response) => {
             return response.data.total;
         })
@@ -28,16 +28,19 @@ const getTotalObjectNumbers = () => {
 };
 
 const getObjectByID = (objectID) => {
-    return metMuseum.get(`/public/collection/v1/objects/${objectID}`)
+    // returns an object
+    return metMuseum.get(`/collection/v1/objects/${objectID}`)
         .then((response) => {
             return response.data
         })
         .catch(handleError);
 }
 
-for (let i = 1; i < 50; i++){
-    getObjectByID(i).then((response) => {
-        // console.log(response.isHighlight)
-        if(response.isHighlight === true){console.log(response)}
-    })
+const getDepartments = () => {
+    // returns an array of objects
+    return metMuseum.get("/collection/v1/departments")
+        .then((response) => {
+            return response.data.departments;
+        })
+        .catch(handleError);
 }
