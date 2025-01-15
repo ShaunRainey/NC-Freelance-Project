@@ -44,3 +44,10 @@ const getDepartments = () => {
         })
         .catch(handleError);
 }
+
+export default {
+  getValidObjectNumbers,
+  getTotalObjectNumbers,
+  getObjectByID,
+  getDepartments,
+};
