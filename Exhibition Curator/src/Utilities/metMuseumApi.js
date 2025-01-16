@@ -7,20 +7,21 @@ import handleError from './handleError.js'
 
 // 25422 is an interesting example, 35 is a highlight
 
-const metMuseum = axios.create({ baseURL: "https://collectionapi.metmuseum.org/public/" })
+const metMuseum = axios.create({ baseURL: "https://collectionapi.metmuseum.org/public/collection/v1" })
 
 const getValidObjectNumbers = () => {
     // returns an array of numbers
-    return metMuseum.get("/collection/v1/objects")
-        .then((response) => {
-            return response.data.objectIDs
-        })
-        .catch(handleError)
+    return metMuseum
+      .get("/search?q=isHighlight")
+      .then((response) => {
+        return response.data.objectIDs;
+      })
+      .catch(handleError);
 }
 
 const getTotalObjectNumbers = () => {
     // returns a single number
-    return metMuseum.get("/collection/v1/objects")
+    return metMuseum.get("/objects")
         .then((response) => {
             return response.data.total;
         })
@@ -29,7 +30,7 @@ const getTotalObjectNumbers = () => {
 
 const getObjectByID = (objectID) => {
     // returns an object
-    return metMuseum.get(`/collection/v1/objects/${objectID}`)
+    return metMuseum.get(`/objects/${objectID}`)
         .then((response) => {
             return response.data
         })
@@ -38,16 +39,48 @@ const getObjectByID = (objectID) => {
 
 const getDepartments = () => {
     // returns an array of objects
-    return metMuseum.get("/collection/v1/departments")
+    return metMuseum.get("/departments")
         .then((response) => {
             return response.data.departments;
         })
         .catch(handleError);
 }
 
+const getImagedArtworks = async (count = 6) => {
+  const validIDs = await getValidObjectNumbers();
+  const randomIDs = [];
+
+  while (randomIDs.length < count) {
+    const randomIndex = Math.floor(Math.random() * validIDs.length);
+    const randomID = validIDs[randomIndex];
+
+    try {
+      const artwork = await getObjectByID(randomID);
+
+      if (artwork && artwork.primaryImageSmall) {
+        randomIDs.push(randomID);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.error(`Artwork with ID ${randomID} not found (404).`);
+      } else {
+        console.error(`Error fetching artwork with ID ${randomID}:`, error);
+      }
+    }
+    }
+  return randomIDs
+};
+
+
+
 export default {
   getValidObjectNumbers,
   getTotalObjectNumbers,
   getObjectByID,
+  getImagedArtworks,
   getDepartments,
 };
+
+
+
+	767421, 573446, 193506, 340855, 26627;
