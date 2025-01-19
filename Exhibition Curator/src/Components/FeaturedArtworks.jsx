@@ -2,9 +2,8 @@ import metRequests from "../Utilities/metMuseumApi";
 import { useState, useEffect } from "react";
 import { Card, Container, Row, Col } from "react-bootstrap";
 
-function FeaturedArtworks() {
+function FeaturedArtworks({artworks, setArtworks}) {
   const [artworkIDs, setArtworkIDs] = useState([]);
-  const [artworks, setArtworks] = useState([]);
 
   useEffect(() => {
     const getArtworksIDs = async () => {
@@ -33,6 +32,7 @@ function FeaturedArtworks() {
       <Row>
         {artworks.map((artwork) => (
           <Col md={4} key={artwork["objectID"]} className="mb-4">
+            {console.log(artwork)}
             <Card className="custom-card">
               <Card.Img
                 variant="top"

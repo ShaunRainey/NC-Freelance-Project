@@ -46,3 +46,13 @@
 /* .Container {
   border: 5px solid red;
 } */
+
+.NNNN {
+  display: flex;
+  justify-content:center; /* Centers the nav items horizontally */
+  align-items: center; /* Centers the nav items vertically */
+  gap: 50px;
+   /* Adds spacing between the items */
+  background-color: #f8f9fa; /* Optional: Background color */
+  padding: 10px; /* Optional: Padding */
+}

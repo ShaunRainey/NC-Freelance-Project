@@ -2,7 +2,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 function NavBar() {
   return (
-    <Container>
+    <Container className="NNNN">
       <Row>
         <Col md={2}>
           <a href="">Home</a>
@@ -30,7 +30,7 @@ function NavBar() {
           <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Go!</button>
           </form>
         </Col>
-        
+
       </Row>
     </Container>
   );
