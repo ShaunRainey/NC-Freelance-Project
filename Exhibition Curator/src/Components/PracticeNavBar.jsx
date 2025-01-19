@@ -1,7 +1,9 @@
 function PracticeNavBar() {
   return (
     <nav>
-          <a class="navbar-brand" href="#">Navbar</a>
+      <ul>
+        
+      </ul>
     </nav>
   );
 }
