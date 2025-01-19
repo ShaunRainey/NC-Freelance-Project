@@ -46,7 +46,7 @@ const getDepartments = () => {
         .catch(handleError);
 }
 
-const getImagedArtworks = async (count = 6) => {
+const getImagedArtworks = async (count = 9) => {
   const validIDs = await getValidObjectNumbers();
   const randomIDs = [];
 

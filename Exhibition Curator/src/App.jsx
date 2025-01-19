@@ -7,17 +7,20 @@ import PageBrowser from './Components/PageBrowser'
 import SearchBox from './Components/searchBox'
 import NavBar from './Components/navBar'
 import Header from './Components/Header'
+import "bootstrap/dist/css/bootstrap.min.css";
+import ArtworkGallery from './Components/ArtworkGallery'
 
 function App() {
   
 
   return (
     <div>
-      <Header />
-      <NavBar />
+      {/* <ArtworkGallery /> */}
+      {/* <Header />
+      <NavBar /> */}
       <FeaturedArtworks />
-      <SearchBox />
-      <PageBrowser />
+      {/* <SearchBox /> */}
+      {/* <PageBrowser /> */}
       </div>
   )
 }

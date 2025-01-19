@@ -24,3 +24,25 @@
 .Header {
   border: 5px solid darkslategrey;
 }
+
+.Card-img {
+  height: 200px;
+  object-fit:cover;
+}
+
+.custom-card {
+  height: 350px !important; /* Force your custom height */
+  display: flex !important; /* Override any default styles */
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.custom-card-body {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: flex-center; /* Align items to the left */
+}
+
+/* .Container {
+  border: 5px solid red;
+} */
