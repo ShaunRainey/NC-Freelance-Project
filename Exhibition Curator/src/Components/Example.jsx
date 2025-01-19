@@ -53,27 +53,8 @@ const ArtworkGallery = () => {
             </Form>
           </div>
         </Col>
-
-        {/* Artwork Grid */}
-        <Col xs={12} md={9}>
-          <Row>
-            {[...Array(9)].map((_, index) => (
-              <Col key={index} xs={6} md={4} className="mb-4">
-                <Card>
-                  <Card.Img
-                    variant="top"
-                    src="https://via.placeholder.com/150"
-                  />
-                  <Card.Body>
-                    <Card.Title>Artwork {index + 1}</Card.Title>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </Col>
       </Row>
-
+      
       {/* Pagination */}
       <Row className="mt-3">
         <Col>
