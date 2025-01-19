@@ -4,25 +4,33 @@ function NavBar() {
   return (
     <Container>
       <Row>
-        <Col>
-          <p>Home</p>
+        <Col md={2}>
+          <a href="">Home</a>
         </Col>
 
-        <Col>
-          <p>Detailed Search</p>
+        <Col md={2}>
+          <a href="">Detailed Search</a>
         </Col>
 
-        <Col>
-          <p>My Exhibitions</p>
+        <Col md={2}>
+          <a href="">My Exhibitions</a>
         </Col>
 
-        <Col>
-          <p>Account</p>
+        <Col md={2}>
+          <a href="">Account</a>
           {/* 
           Account Details
           Saved exhibitions 
           */}
         </Col>
+  
+        <Col md={3}>
+          <form className="d-flex">
+          <input className="form-control mr-sm-2" type="search" placeholder="Quick Search" aria-label="Search" />
+          <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Go!</button>
+          </form>
+        </Col>
+        
       </Row>
     </Container>
   );
