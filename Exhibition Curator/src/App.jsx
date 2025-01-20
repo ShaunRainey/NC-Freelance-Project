@@ -9,6 +9,17 @@ import NavBar from './Components/NavBar'
 import { Row, Col, Container } from 'react-bootstrap'
 
 
+/* 
+Implement Individual artwork page properly
+Implement picture zoom
+Implement loading page
+Implement search box + bar
+Pagination
+*/
+
+
+
+
 function App() {
   
   const [artworks, setArtworks] = useState([]);
