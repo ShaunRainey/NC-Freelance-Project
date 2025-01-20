@@ -1,19 +1,18 @@
-import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css"; 
+import { Routes, Route } from "react-router";
 import { useState } from 'react'
 import './App.css'
-import FeaturedArtworks from './Components/FeaturedArtworks'
+import FeaturedArtworks from "./Components/featuredArtworks";
 import IndividualArtwork from "./Components/IndividualArtwork";
-import PageBrowser from './Components/PageBrowser'
 import SearchBox from './Components/searchBox'
 import NavBar from './Components/NavBar'
-import Header from './Components/Header'
-import ArtworkGallery from './Components/Example'
 import { Row, Col, Container } from 'react-bootstrap'
 
 
 function App() {
   
   const [artworks, setArtworks] = useState([]);
+  const [artPiece, setArtPiece] = useState(null);
 
 
   const exampleArtwork = {
@@ -91,16 +90,32 @@ function App() {
 };
 
   return (
-    <Container>
-      <NavBar />
-      <Row>
-        <Col md={1}>{/* <SearchBox /> */}</Col>
-        <Col>
-          <FeaturedArtworks artworks={artworks} setArtworks={setArtworks}/>
-          {/* <IndividualArtwork artworks={artworks} exampleArtwork={exampleArtwork}/> */}
-        </Col>
-      </Row>
-    </Container>
+      <Container>
+        <NavBar />
+        <Routes>
+          
+          <Route path="/" 
+          element={
+            <Row>
+              <Col>
+              <FeaturedArtworks artworks={artworks} setArtworks={setArtworks}/>
+              </Col>
+            </Row>
+            }
+          />
+
+          <Route path="/artwork/:objectID" element={
+            <Row>
+              <Col>
+                <IndividualArtwork artPiece={artPiece} setArtPiece={setArtPiece}/>
+              </Col>
+            </Row>
+          } 
+        />
+
+        </Routes>
+
+      </Container>
   );
 }
 

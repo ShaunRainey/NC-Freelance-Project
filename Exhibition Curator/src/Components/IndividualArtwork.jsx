@@ -1,35 +1,39 @@
 import { Card, Container, Row, Col } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import metRequests from "../Utilities/metMuseumApi";
+import { useParams } from "react-router";
 
-function IndividualArtwork({artworks, exampleArtwork}) {
-    console.log(exampleArtwork)
-  return (
-    <Container>
-        <Row>
-            <Col>
-                <Card className="custom-card">
-                    <Card.Img
-                        variant="top"
-                        src={exampleArtwork["primaryImageSmall"]}
-                        alt="Artwork"
-                        className="Card-img"
-                    />
-                    <Card.Body className="custom-card-body">
-                        <Card.Title className="mb-2">
-                            {exampleArtwork.title || "Untitled"}
-                        </Card.Title>
-                        <Card.Text className="custom-card-text">
-                            {exampleArtwork.artistDisplayName || "Unknown Artist"}
-                            { " " + exampleArtwork.objectDate || "Unknown Date"}
-                        </Card.Text>
-                        <Card.Text>
-                            {"To view more detailed information, visit: " + "\n" + exampleArtwork.objectURL || "Unknown Date"}
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            </Col>
-        </Row>
-    </Container>
-  );
+function IndividualArtwork({artPiece, setArtPiece}) {
+    console.log(artPiece)
+    const {objectID} = useParams() 
+
+  useEffect(() => {
+    const fetchArtPiece = async (objectID) => {
+        const artPiece = metRequests.getObjectByID(objectID);
+        const artPieceData = await Promise.resolve(artPiece);
+
+        setArtPiece(artPieceData);
+    };
+    fetchArtPiece(objectID)
+  }, [objectID]);
+  console.log(artPiece)
+
+  if(artPiece){
+      return (
+          <Container>
+              <Row>
+                <Col md={4} className="mb-4">
+                <img src={artPiece["primaryImage"]} alt="" className="Individual-Artwork" /> 
+                </Col>
+                <Col md={8} className="mb-4">
+                    <h1>{artPiece.title} </h1>
+                    <h2>Date</h2>
+                    <p>For more information, please visit: {artPiece.objectURL}</p>
+                </Col>
+              </Row>
+          </Container>
+      );
+  }
 }
 
 export default IndividualArtwork;
