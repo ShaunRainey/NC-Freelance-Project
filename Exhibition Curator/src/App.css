@@ -27,7 +27,7 @@
   border: 5px solid red;
 } */
 
-.NNNN {
+.navBar {
   display: flex;
   justify-content:center; /* Centers the nav items horizontally */
   align-items: center; /* Centers the nav items vertically */
@@ -43,6 +43,39 @@ a { color: inherit;
 text-decoration: none; }
 
 .Individual-Artwork {
-  height: 400px;
+  height: 500px;
   object-fit:cover;
+  object-position: left;
 }
+
+.loader {
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  height: 15vw; /* Full viewport height */
+  width: 15vw;
+  position: fixed;
+  top:60%;
+  left: 50%;
+  animation: spin 3s linear infinite;
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+  /* position: fixed; 
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.8); 
+  z-index: 1000; Ensures it stays above other elements */
+
+/* .Individual-Artwork:hover{
+  transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */

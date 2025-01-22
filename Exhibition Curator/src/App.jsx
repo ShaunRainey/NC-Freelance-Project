@@ -12,7 +12,6 @@ import { Row, Col, Container } from 'react-bootstrap'
 /* 
 Implement Individual artwork page properly
 Implement picture zoom
-Implement loading page
 Implement search box + bar
 Pagination
 */
@@ -24,6 +23,7 @@ function App() {
   
   const [artworks, setArtworks] = useState([]);
   const [artPiece, setArtPiece] = useState(null);
+  const [loading, setLoading] = useState(false)
 
 
   const exampleArtwork = {
@@ -109,18 +109,14 @@ function App() {
           element={
             <Row>
               <Col>
-              <FeaturedArtworks artworks={artworks} setArtworks={setArtworks}/>
+              <FeaturedArtworks artworks={artworks} setArtworks={setArtworks} loading = {loading} setLoading = {setLoading}/>
               </Col>
             </Row>
             }
           />
 
           <Route path="/artwork/:objectID" element={
-            <Row>
-              <Col>
-                <IndividualArtwork artPiece={artPiece} setArtPiece={setArtPiece}/>
-              </Col>
-            </Row>
+                <IndividualArtwork artPiece={artPiece} setArtPiece={setArtPiece} loading = {loading} setLoading = {setLoading}/>
           } 
         />
 

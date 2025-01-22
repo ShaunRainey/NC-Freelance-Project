@@ -1,37 +1,35 @@
 import { Container, Row, Col } from "react-bootstrap";
+import { Link } from 'react-router'
+import QuickSearch from "./QuickSearch";
 
 function NavBar() {
   return (
-    <Container className="NNNN">
-      <Row>
-        <Col md={2}>
-          <a href="/">Home</a>
-        </Col>
+    <nav className="navBar">
+      <Container>
+        <Row>
+          <Col md={2}>
+            <Link to="/">Home</Link>
+          </Col>
 
-        <Col md={2}>
-          <a href="">Detailed Search</a>
-        </Col>
+          <Col md={2}>
+            <Link to="/detailed-search">Detailed Search</Link>
+          </Col>
 
-        <Col md={2} >
-          <a href="">My Exhibitions</a>
-        </Col>
+          <Col md={2}>
+            <Link to="/my-exhibitions">My Exhibitions</Link>
+          </Col>
 
-        <Col md={2}>
-          <a href="">Account Settings</a>
-        </Col>
-  
-        <Col md={4}>
-          <form className="d-flex">
-          <input className="form-control mr-sm-2" type="search" placeholder="Quick Search" aria-label="Search" />
-          <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Go!</button>
-          </form>
-        </Col>
+          <Col md={2}>
+            <Link to="/account-settings">Account Settings</Link>
+          </Col>
 
-      </Row>
-    </Container>
+          <Col md={4}>
+            <QuickSearch />
+          </Col>
+        </Row>
+      </Container>
+    </nav>
   );
 }
 
 export default NavBar;
-
-
