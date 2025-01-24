@@ -13,7 +13,6 @@ function FeaturedArtworks({artworks, setArtworks, loading, setLoading}) {
       setLoading(true)
       const imagedArtworks = await metRequests.getRandomImagedArtworks();
       setArtworkIDs(imagedArtworks);
-      console.log(imagedArtworks)
     };
     getArtworksIDs();
   }, []);
@@ -22,7 +21,6 @@ function FeaturedArtworks({artworks, setArtworks, loading, setLoading}) {
     if (artworkIDs.length !== 0) {
       const fetchArtworks = async () => {
         const artworkPromises = artworkIDs.map((ID) => {
-          console.log(ID)
           return metRequests.getObjectByID(ID);
         });
         const artworkData = await Promise.all(artworkPromises);
@@ -47,7 +45,6 @@ function FeaturedArtworks({artworks, setArtworks, loading, setLoading}) {
         <Row>
           {artworks.map((artwork) => (
             <Col md={4} key={artwork["objectID"]} className="mb-4">
-              {/* {console.log(artwork)} */}
               <Link to={`/artwork/${artwork.objectID}`}>
                 <Card className="custom-card">
                   <Card.Img

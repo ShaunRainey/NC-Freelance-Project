@@ -9,10 +9,24 @@ import handleError from './handleError.js'
 
 const metMuseum = axios.create({ baseURL: "https://collectionapi.metmuseum.org/public/collection/v1" })
 
-const getValidObjectNumbers = () => {
+const getValidObjectNumbers = (searchWords) => {
     // returns an array of numbers
+    let searchString = "/search?q=isHighlight"
+
+    //do a for each with the searchArray to build up the query string
+    if(searchWords){
+      const searchArray = searchWords.split(" ");
+      searchString = "/search?q=";
+      searchArray.forEach((string) => {
+        searchString += string + "+"
+      })
+      searchString = searchString.slice(0, searchString.length - 1)
+      console.log(searchString)
+    }
+
+
     return metMuseum
-      .get("/search?q=isHighlight")
+      .get(searchString)
       .then((response) => {
         return response.data.objectIDs;
       })
@@ -46,8 +60,8 @@ const getDepartments = () => {
         .catch(handleError);
 }
 
-const getAllImagedArtworks = async (count = 9) => {
-  const validIDs = await getValidObjectNumbers();
+const getAllImagedArtworks = async (searchWords, count = 9) => {
+  const validIDs = await getValidObjectNumbers(searchWords);
   const artworks = [];
   let index = 0;
 

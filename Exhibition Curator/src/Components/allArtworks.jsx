@@ -1,21 +1,23 @@
 import metRequests from "../Utilities/metMuseumApi";
 import { useState, useEffect } from "react";
 import { Card, Container, Row, Col } from "react-bootstrap";
-import { Link } from 'react-router'
+import { Link, useParams, useLocation} from 'react-router'
 import Loading from "./Loading";
 
 function AllArtworks({artworks, setArtworks, loading, setLoading}) {
 
   const [artworkIDs, setArtworkIDs] = useState([]);
+  const location = useLocation(); //Provides all information from URL
+  const queryWords = new URLSearchParams(location.search).get("query");
 
   useEffect(() => {
     const getArtworksIDs = async () => {
       setLoading(true)
-      const imagedArtworks = await metRequests.getAllImagedArtworks();
+      const imagedArtworks = await metRequests.getAllImagedArtworks(queryWords);
       setArtworkIDs(imagedArtworks);
     };
     getArtworksIDs();
-  }, []);
+  }, [location.search]); //causes API call to 'refresh' if a new search is entered into the quickSearch
 
   useEffect(() => {
     if (artworkIDs.length !== 0) {
@@ -32,22 +34,17 @@ function AllArtworks({artworks, setArtworks, loading, setLoading}) {
     }
   }, [artworkIDs]);
 
-  console.log(artworks)
-
-
   if(loading){
     return (
     <Container>
       <Loading/>
     </Container>)
   } else{
-
     return (
       <Container>
         <Row>
           {artworks.map((artwork) => (
             <Col md={4} key={artwork["objectID"]} className="mb-4">
-              {console.log(artwork)}
               <Link to={`/artwork/${artwork.objectID}`}>
                 <Card className="custom-card">
                   <Card.Img

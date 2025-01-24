@@ -7,7 +7,7 @@ function NavBar() {
   const navigate = useNavigate();
 
   const handleSearch = (searchTerm) => {
-    navigate(`/all-artworks/search?query=${encodeURIComponent(searchTerm)}`)
+    navigate(`/all-artworks?query=${encodeURIComponent(searchTerm)}`)
   }
 
   return (
