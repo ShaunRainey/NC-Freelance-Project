@@ -1,8 +1,15 @@
 import { Container, Row, Col } from "react-bootstrap";
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import QuickSearch from "./QuickSearch";
 
 function NavBar() {
+
+  const navigate = useNavigate();
+
+  const handleSearch = (searchTerm) => {
+    navigate(`/all-artworks/search?query=${encodeURIComponent(searchTerm)}`)
+  }
+
   return (
     <nav className="navBar">
       <Container>
@@ -24,7 +31,7 @@ function NavBar() {
           </Col>
 
           <Col md={4}>
-            <QuickSearch />
+            <QuickSearch onSearch = {handleSearch} />
           </Col>
         </Row>
       </Container>

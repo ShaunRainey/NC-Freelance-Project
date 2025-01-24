@@ -45,9 +45,10 @@ if(loading){
                         <p>Date: {artPiece.objectDate}</p>
                         <p>Department: {artPiece.department} </p>
                         <p></p>
-                        <p>For more information, please visit: 
+                        <p>For more information, please visit:</p>
+                            <p> 
                             <a href={artPiece.objectURL}>
-                           {artPiece.objectURL}
+                            {artPiece.objectURL}
                            </a>
                          </p>
                                 
