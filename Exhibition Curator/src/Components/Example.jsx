@@ -12,15 +12,7 @@ import {
 
 const ArtworkGallery = () => {
   return (
-    <Container fluid>
-      {/* Logo and Navbar */}
-      <Row className="mb-3">
-        <Col>
-          <Navbar bg="dark" variant="dark" expand="lg">
-            <Navbar.Brand href="#">Logo</Navbar.Brand>
-          </Navbar>
-        </Col>
-      </Row>
+<Container>
 
       {/* Main Content */}
       <Row>

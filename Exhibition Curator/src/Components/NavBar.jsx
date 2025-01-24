@@ -19,6 +19,10 @@ function NavBar() {
           </Col>
 
           <Col md={2}>
+            <Link to="/all-artworks">All Artworks</Link>
+          </Col>
+
+          <Col md={2}>
             <Link to="/detailed-search">Detailed Search</Link>
           </Col>
 

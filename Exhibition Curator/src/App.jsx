@@ -1,12 +1,14 @@
+import './App.css'
 import "bootstrap/dist/css/bootstrap.min.css"; 
 import { Routes, Route } from "react-router";
+import { Row, Col, Container } from 'react-bootstrap'
 import { useState } from 'react'
-import './App.css'
+
 import FeaturedArtworks from "./Components/featuredArtworks";
 import IndividualArtwork from "./Components/IndividualArtwork";
 import SearchBox from './Components/searchBox'
 import NavBar from './Components/NavBar'
-import { Row, Col, Container } from 'react-bootstrap'
+import AllArtworks from "./Components/allArtworks";
 
 
 /* 
@@ -119,6 +121,12 @@ function App() {
                 <IndividualArtwork artPiece={artPiece} setArtPiece={setArtPiece} loading = {loading} setLoading = {setLoading}/>
           } 
         />
+
+          <Route path="/all-artworks/" element={
+            <AllArtworks artworks={artworks} setArtworks={setArtworks} loading={loading} setLoading = {setLoading}/>
+          } 
+        />
+
 
         </Routes>
 

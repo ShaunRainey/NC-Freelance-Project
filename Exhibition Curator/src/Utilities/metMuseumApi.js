@@ -46,9 +46,34 @@ const getDepartments = () => {
         .catch(handleError);
 }
 
-const getImagedArtworks = async (count = 9) => {
+const getAllImagedArtworks = async (count = 9) => {
   const validIDs = await getValidObjectNumbers();
-  const randomIDs = [];
+  const artworks = [];
+  let index = 0;
+
+  while (artworks.length < count) {
+    try {
+      const artwork = await getObjectByID(validIDs[index]);
+      index +=1;
+      
+      if (artwork && artwork.primaryImageSmall) {
+        artworks.push(artwork["objectID"]);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.error(`Artwork with ID ${validIDs[index]} not found (404).`);
+      } else {
+        console.error(`Error fetching artwork with ID ${validIDs[index]}:`, error);
+      }
+    }
+    }
+  return artworks
+};
+
+const getRandomImagedArtworks = async (count = 9) => {
+  const validIDs = await getValidObjectNumbers();
+  const randomIDs = []
+  
 
   while (randomIDs.length < count) {
     const randomIndex = Math.floor(Math.random() * validIDs.length);
@@ -77,8 +102,9 @@ export default {
   getValidObjectNumbers,
   getTotalObjectNumbers,
   getObjectByID,
-  getImagedArtworks,
+  getRandomImagedArtworks,
   getDepartments,
+  getAllImagedArtworks
 };
 
 
