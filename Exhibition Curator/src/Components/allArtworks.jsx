@@ -8,9 +8,9 @@ function AllArtworks({artworks, setArtworks, loading, setLoading}) {
 
   const [artworkIDs, setArtworkIDs] = useState([]);
   const location = useLocation(); //Provides all information from URL
-  const queryWords = new URLSearchParams(location.search).get("query");
+  const queryWords = new URLSearchParams(location.search).get("query"); 
 
-  useEffect(() => {
+  useEffect(() => { // gets an array of valid IDs 
     const getArtworksIDs = async () => {
       setLoading(true)
       const imagedArtworks = await metRequests.getAllImagedArtworks(queryWords);
@@ -20,7 +20,7 @@ function AllArtworks({artworks, setArtworks, loading, setLoading}) {
   }, [location.search]); //causes API call to 'refresh' if a new search is entered into the quickSearch
 
   useEffect(() => {
-    if (artworkIDs.length !== 0) {
+    if (artworkIDs.length !== 0) { // trigger API call if artwork IDs are present. Then feed IDs into another API call
       const fetchArtworks = async () => {
         const artworkPromises = artworkIDs.map((ID) => {
           return metRequests.getObjectByID(ID);

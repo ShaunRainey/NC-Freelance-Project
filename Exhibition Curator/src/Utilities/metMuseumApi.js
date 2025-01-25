@@ -13,7 +13,6 @@ const getValidObjectNumbers = (searchWords) => {
     // returns an array of numbers
     let searchString = "/search?q=isHighlight"
 
-    //do a for each with the searchArray to build up the query string
     if(searchWords){
       const searchArray = searchWords.split(" ");
       searchString = "/search?q=";
@@ -21,7 +20,7 @@ const getValidObjectNumbers = (searchWords) => {
         searchString += string + "+"
       })
       searchString = searchString.slice(0, searchString.length - 1)
-      console.log(searchString)
+
     }
 
 
