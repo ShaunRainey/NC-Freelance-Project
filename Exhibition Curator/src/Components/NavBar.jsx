@@ -7,8 +7,20 @@ function NavBar() {
   const navigate = useNavigate();
 
   const handleSearch = (searchTerm) => {
-    navigate(`/all-artworks?query=${encodeURIComponent(searchTerm)}`)
+    // Update the URL with the new search query
+    navigate(`/all-artworks?query=${encodeURIComponent(searchTerm)}`);
+
+    // Could not get the state to behave as intended, would keep pictures the same unless manually refreshed. This window reload fixes that.
+    window.location.reload();
   }
+
+  const handleAllArtworksClick = () => {
+    // Reset the URL to remove any query parameters
+    navigate("/all-artworks");
+    
+    window.location.reload();
+  };
+
 
   return (
     <nav className="navBar">
@@ -19,7 +31,7 @@ function NavBar() {
           </Col>
 
           <Col md={2}>
-            <Link to="/all-artworks">All Artworks</Link>
+            <Link to="/all-artworks" onClick={handleAllArtworksClick}>All Artworks</Link>
           </Col>
 
           <Col md={2}>

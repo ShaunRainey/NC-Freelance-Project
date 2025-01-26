@@ -20,13 +20,12 @@ const getValidObjectNumbers = (searchWords) => {
         searchString += string + "+"
       })
       searchString = searchString.slice(0, searchString.length - 1)
-
     }
-
 
     return metMuseum
       .get(searchString)
       .then((response) => {
+        console.log(response.data.objectIDs)
         return response.data.objectIDs;
       })
       .catch(handleError);
@@ -41,14 +40,27 @@ const getTotalObjectNumbers = () => {
         .catch(handleError);
 };
 
+// const getObjectByID = (objectID) => {
+//     // returns an object
+//     return metMuseum.get(`/objects/${objectID}`)
+//         .then((response) => {
+//             return response.data
+//         })
+//         .catch(handleError);
+// }
+
 const getObjectByID = (objectID) => {
-    // returns an object
-    return metMuseum.get(`/objects/${objectID}`)
-        .then((response) => {
-            return response.data
-        })
-        .catch(handleError);
-}
+  return metMuseum.get(`/objects/${objectID}`)
+    .then((response) => {
+      if (response.data && response.data.objectID) {
+        return response.data; // Ensure that objectID exists in the response
+      } else {
+        throw new Error(`Object with ID ${objectID} not found`);
+      }
+    })
+    .catch(handleError);
+};
+
 
 const getDepartments = () => {
     // returns an array of objects
@@ -59,28 +71,59 @@ const getDepartments = () => {
         .catch(handleError);
 }
 
-const getAllImagedArtworks = async (searchWords, count = 9) => {
-  const validIDs = await getValidObjectNumbers(searchWords);
-  const artworks = [];
-  let index = 0;
+const validIDCache = []; // Cache to store all valid object IDs
 
-  while (artworks.length < count) {
-    try {
-      const artwork = await getObjectByID(validIDs[index]);
-      index +=1;
-      
-      if (artwork && artwork.primaryImageSmall) {
-        artworks.push(artwork["objectID"]);
+const getAllImagedArtworks = async (searchWords, page = 1, itemsPerPage = 9) => {
+  let searchString = "/search?q=isHighlight";
+
+  // Apply search query if available
+  if (searchWords) {
+    const searchArray = searchWords.split(" ");
+    searchString = "/search?q=";
+    searchArray.forEach((string) => {
+      searchString += string + "+";
+    });
+    searchString = searchString.slice(0, searchString.length - 1);
+  }
+
+  try {
+    const response = await metMuseum.get(searchString);
+    const objectIDs = response.data.objectIDs;
+
+    console.log("Fetched object IDs:", objectIDs);
+
+    // Ensure the cache contains enough valid IDs to render the requested page
+    const requiredValidIDs = page * itemsPerPage;
+
+    let currentIndex = validIDCache.length; // Start checking where the cache ends
+    while (validIDCache.length < requiredValidIDs && currentIndex < objectIDs.length) {
+      const id = objectIDs[currentIndex];
+      try {
+        const artworkResponse = await metMuseum.get(`/objects/${id}`);
+        if (artworkResponse.data.primaryImageSmall) {
+          validIDCache.push(artworkResponse.data); // Add valid artwork object to the cache
+        }
+      } catch (error) {
+        console.log(`Error fetching artwork with ID ${id}:`, error);
+        // Skip invalid IDs
       }
-    } catch (error) {
-      if (error.response && error.response.status === 404) {
-        console.error(`Artwork with ID ${validIDs[index]} not found (404).`);
-      } else {
-        console.error(`Error fetching artwork with ID ${validIDs[index]}:`, error);
-      }
+      currentIndex++;
     }
-    }
-  return artworks
+
+    console.log("Valid artworks in cache:", validIDCache);
+
+    // Slice the cache to return only the items for the requested page
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedArtworks = validIDCache.slice(startIndex, endIndex);
+
+    console.log("Artworks for current page:", paginatedArtworks);
+
+    return paginatedArtworks;
+  } catch (error) {
+    console.log("Error fetching artwork list:", error);
+    return [];
+  }
 };
 
 const getRandomImagedArtworks = async (count = 9) => {

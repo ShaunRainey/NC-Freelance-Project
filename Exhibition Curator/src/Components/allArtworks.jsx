@@ -1,55 +1,62 @@
-import metRequests from "../Utilities/metMuseumApi";
 import { useState, useEffect } from "react";
-import { Card, Container, Row, Col } from "react-bootstrap";
-import { Link, useParams, useLocation} from 'react-router'
+import { Container, Row, Col, Card } from "react-bootstrap";
+import { useLocation, Link } from "react-router"; // Updated import for 'react-router-dom'
 import Loading from "./Loading";
+import metRequests from "../Utilities/metMuseumApi";
+import PageBar from "./PageBar";
 
-function AllArtworks({artworks, setArtworks, loading, setLoading}) {
+function AllArtworks({ artworks, setArtworks, loading, setLoading }) {
+  const [validObjectIDs, setValidObjectIDs] = useState([]); // To store all valid object IDs
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
 
-  const [artworkIDs, setArtworkIDs] = useState([]);
-  const location = useLocation(); //Provides all information from URL
-  const queryWords = new URLSearchParams(location.search).get("query"); 
-
-  useEffect(() => { // gets an array of valid IDs 
-    const getArtworksIDs = async () => {
-      setLoading(true)
-      const imagedArtworks = await metRequests.getAllImagedArtworks(queryWords);
-      setArtworkIDs(imagedArtworks);
-    };
-    getArtworksIDs();
-  }, [location.search]); //causes API call to 'refresh' if a new search is entered into the quickSearch
+  const location = useLocation();
+  const queryWords = new URLSearchParams(location.search).get("query") || ""; // Get query param
 
   useEffect(() => {
-    if (artworkIDs.length !== 0) { // trigger API call if artwork IDs are present. Then feed IDs into another API call
-      const fetchArtworks = async () => {
-        const artworkPromises = artworkIDs.map((ID) => {
-          return metRequests.getObjectByID(ID);
-        });
-        const artworkData = await Promise.all(artworkPromises);
+    const fetchAllArtworks = async () => {
+      setLoading(true);
 
-        setArtworks(artworkData);
-      };
-      fetchArtworks();
-      setLoading(false)
-    }
-  }, [artworkIDs]);
+      // Get all valid object IDs for the search query
+      const validIDs = await metRequests.getValidObjectNumbers(queryWords);
+      setValidObjectIDs(validIDs); // Store the IDs to calculate total pages
 
-  if(loading){
-    return (
-    <Container>
-      <Loading/>
-    </Container>)
-  } else{
+      // Get artworks for the current page
+      const imagedArtworks = await metRequests.getAllImagedArtworks(queryWords, currentPage, itemsPerPage);
+      setArtworks(imagedArtworks); // Set the artworks for the current page
+      setLoading(false);
+    };
+
+    fetchAllArtworks();
+  }, [queryWords, currentPage]); // Re-run the effect when queryWords or currentPage changes
+
+  // Calculate the total pages based on all valid object IDs
+  const totalItems = validObjectIDs.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  // Handle page changes
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  if (loading) {
     return (
       <Container>
+        <Loading />
+      </Container>
+    );
+  } else {
+    return (
+      <Container>
+        {/* Artwork Cards */}
         <Row>
           {artworks.map((artwork) => (
-            <Col md={4} key={artwork["objectID"]} className="mb-4">
+            <Col md={4} key={artwork.objectID} className="mb-4">
               <Link to={`/artwork/${artwork.objectID}`}>
                 <Card className="custom-card">
                   <Card.Img
                     variant="top"
-                    src={artwork["primaryImageSmall"]}
+                    src={artwork.primaryImageSmall}
                     alt="Artwork"
                     className="Card-img"
                   />
@@ -65,6 +72,18 @@ function AllArtworks({artworks, setArtworks, loading, setLoading}) {
               </Link>
             </Col>
           ))}
+        </Row>
+
+        {/* Pagination */}
+        <Row className="mt-3">
+          <Col>
+            <PageBar
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              maxVisiblePages={5}
+            />
+          </Col>
         </Row>
       </Container>
     );
