@@ -16,7 +16,7 @@ const PageBar = ({ currentPage, totalPages, onPageChange, maxVisiblePages = 5 })
       {/* First and Previous Buttons */}
       <Button
         variant="secondary"
-        disabled={currentPage === 1}
+        disabled={currentPage === 1 || currentPage === 2}
         onClick={() => onPageChange(currentPage - 2)}
       >
         {"<<"}
@@ -50,7 +50,7 @@ const PageBar = ({ currentPage, totalPages, onPageChange, maxVisiblePages = 5 })
       </Button>
       <Button
         variant="secondary"
-        disabled={currentPage === totalPages}
+        disabled={currentPage === totalPages || currentPage === totalPages -1}
         onClick={() => onPageChange(currentPage + 2)}
       >
         {">>"}
