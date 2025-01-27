@@ -25,7 +25,7 @@ const getValidObjectNumbers = (searchWords) => {
     return metMuseum
       .get(searchString)
       .then((response) => {
-        console.log(response.data.objectIDs)
+        console.log("Valid object numbers: ",response.data.objectIDs)
         return response.data.objectIDs;
       })
       .catch(handleError);
@@ -152,7 +152,37 @@ const getRandomImagedArtworks = async (count = 9) => {
   return randomIDs
 };
 
+const getSearchElements = async (searchArray, page = 1, itemsPerPage = 9) => {
+  let searchString = "/search?departmentId=1&q=a";
 
+  const response = await metMuseum.get(searchString);
+  const objectIDs = response.data.objectIDs;
+
+  let newArray = []
+
+  let index = 0;
+  while(index < objectIDs.length && newArray.length < 180){ // Creates 20 pages of artwork with 180
+    const id = objectIDs[index];
+    try{
+      const artworkResponse = await metMuseum.get(`/objects/${id}`)
+      if (artworkResponse.data.primaryImageSmall) {
+        newArray.push(artworkResponse.data);
+        // console.log(newArray)
+      }
+    } catch (error){
+        console.log(error)
+    }
+      index ++;
+    }
+
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+
+    const paginatedArtworks = newArray.slice(startIndex, endIndex);
+
+    console.log("Talking about pagination: ",paginatedArtworks);
+    return newArray
+}
 
 export default {
   getValidObjectNumbers,
@@ -160,7 +190,8 @@ export default {
   getObjectByID,
   getRandomImagedArtworks,
   getDepartments,
-  getAllImagedArtworks
+  getAllImagedArtworks,
+  getSearchElements
 };
 
 
