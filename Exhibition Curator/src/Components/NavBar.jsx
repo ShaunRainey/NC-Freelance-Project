@@ -17,7 +17,6 @@ function NavBar() {
   const handleAllArtworksClick = () => {
     // Reset the URL to remove any query parameters
     navigate("/all-artworks");
-    
     window.location.reload();
   };
 
@@ -35,16 +34,16 @@ function NavBar() {
           </Col>
 
           <Col md={2}>
-            <Link to="/detailed-search">Detailed Search</Link>
+            <Link to="/detailed-search" onClick={()=> {window.reload()}} >Detailed Search</Link>
           </Col>
 
           <Col md={2}>
-            <Link to="/my-exhibitions">My Exhibitions</Link>
+            <Link to="/saved-exhibitions">Saved Exhibitions</Link>
           </Col>
 
-          <Col md={2}>
+          {/* <Col md={2}>
             <Link to="/account-settings">Account Settings</Link>
-          </Col>
+          </Col> */}
 
           <Col md={4}>
             <QuickSearch onSearch = {handleSearch} />
