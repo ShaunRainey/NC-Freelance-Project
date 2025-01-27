@@ -161,7 +161,7 @@ const getSearchElements = async (searchArray, page = 1, itemsPerPage = 9) => {
   let newArray = []
 
   let index = 0;
-  while(index < objectIDs.length && newArray.length < 180){ // Creates 20 pages of artwork with 180
+  while(index < objectIDs.length && newArray.length < 36){ // Creates 20 pages of artwork with 180
     const id = objectIDs[index];
     try{
       const artworkResponse = await metMuseum.get(`/objects/${id}`)

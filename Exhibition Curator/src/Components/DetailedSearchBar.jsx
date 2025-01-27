@@ -1,4 +1,4 @@
-import { Card, Container, Row, Col, Button } from "react-bootstrap";
+import { Card, Container, Row, Col, Button, Form} from "react-bootstrap";
 import metRequests from "../Utilities/metMuseumApi";
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
@@ -8,6 +8,8 @@ import Loading from "./Loading";
 function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, itemsPerPage, loading, setLoading}) {
     const [searchInitiated, setSearchInitiated] = useState(false)
     const [totalResults, setTotalResults] = useState([]);
+
+    // itemsPerPage = 60;
 
     useEffect(() => {
         const fetchAllArtworks = async () => {
@@ -44,10 +46,96 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
 
   if (!searchInitiated) {
     return (
-      <Container className="text-center mt-5">
-        <Button variant="primary" size="lg" onClick={handleSearchInitiate}>
-          Start Search
-        </Button>
+      <Container className="text-center mt-5">   
+
+        <Row>
+            <Col xs={12} md={12}>
+                <div className="p-3 bg-light">
+                <h5>Search Box:</h5>
+
+                    <Form>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Filter by Museum</Form.Label>
+                            <Form.Control as="select">
+                            <option>The Met Museum</option>
+                            <option>Option 2</option>
+                            </Form.Control>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Filter by Department</Form.Label>
+                            <Form.Control as="select">
+                            <option>All</option>
+                            <option>1</option>
+                            <option>2</option>
+                            </Form.Control>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Date Range</Form.Label>
+                            <div className="d-flex">
+                                <Form.Control type="number" placeholder="From (Year)" className="me-2" />
+                                <Form.Control type="number" placeholder="To (Year)" />
+                            </div>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Keyword</Form.Label>
+                            <Form.Control type="text" placeholder="Enter keyword (e.g., artist, title)" />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Maximum Pages</Form.Label>
+                                <p className="smallprint">(A higher number will increase API response time. Recommended to stay below 20)</p>
+                            <Form.Control as="select">
+                                <option>Default (20)</option>
+                                <option>5</option>
+                                <option>10</option>
+                                <option>15</option>
+                                <option>20</option>
+                            </Form.Control>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Results Per Page</Form.Label>
+                                <p className="smallprint">(A higher number will increase API response time. Recommended to stay below 20)</p>
+                            <Form.Control as="select">
+                                <option>Default (9)</option>
+                                <option>3</option>
+                                <option>6</option>
+                                <option>9</option>
+                                <option>12</option>
+                                <option>15</option>
+                                <option>30</option>
+                                <option>60</option>
+                            </Form.Control>
+                        </Form.Group>
+
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Sort By</Form.Label>
+                            <Form.Control as="select">
+                            <option>Origin date (old - new)</option>
+                            <option>Origin date (new - old)</option>
+                            <option>Title (A-Z)</option>
+                            <option>Title (Z-A)</option>
+                            <option>Artist (A-Z)</option>
+                            <option>Artist (Z-A)</option>
+                            <option>Department (A-Z)</option>
+                            <option>Department (Z-A)</option>
+                            <option>Recently Added</option>
+                            </Form.Control>
+                        </Form.Group>
+
+                        <Button variant="primary" size="lg" onClick={handleSearchInitiate}>
+                            Search
+                        </Button>
+
+                    </Form>
+                </div>
+            </Col>
+        </Row>
       </Container>
     );
   }
@@ -106,10 +194,6 @@ export default DetailedSearch;
 
 /* Considerations:
 
-- Pick an API/Source
-- Filter by department
-- Set max results
-- Enter a keyword
 - Sort by:
     - Origin date (old - new)
     - Origin date (new - old)
