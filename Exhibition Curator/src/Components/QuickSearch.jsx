@@ -5,10 +5,6 @@ function QuickSearch({onSearch}) {
 
     const [quickSearchTerm, setQuickSearchTerm] = useState("");
 
-    // const handleInputChange = (event) => {
-    //     console.log("This is the handleInputChange line 9 ", event.target.value)
-    // }
-
     const handleSubmit = (event) => {
         event.preventDefault();
         const searchTerm =  event.target.querySelector('input').value;

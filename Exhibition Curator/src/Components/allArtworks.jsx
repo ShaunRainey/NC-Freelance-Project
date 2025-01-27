@@ -5,10 +5,7 @@ import Loading from "./Loading";
 import metRequests from "../Utilities/metMuseumApi";
 import PageBar from "./PageBar";
 
-function AllArtworks({ artworks, setArtworks, loading, setLoading }) {
-  const [validObjectIDs, setValidObjectIDs] = useState([]); // To store all valid object IDs
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+function AllArtworks({ artworks, setArtworks, validObjectIDs, setValidObjectIDs, currentPage, setCurrentPage, itemsPerPage, loading, setLoading }) {
 
   const location = useLocation();
   const queryWords = new URLSearchParams(location.search).get("query") || ""; // Get query param
