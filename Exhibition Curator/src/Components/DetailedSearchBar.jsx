@@ -8,9 +8,64 @@ import Loading from "./Loading";
 function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, itemsPerPage, loading, setLoading}) {
     const [searchInitiated, setSearchInitiated] = useState(false)
     const [totalResults, setTotalResults] = useState([]);
+    const [departments, setDepartments] = useState([]);
 
-    // itemsPerPage = 60;
+    //Form choices
+    const [museum, setMuseum] = useState("The Met Museum");
+    const [department, setDepartment] = useState("");
+    const [keyword, setKeyword] = useState("");
+    const [maxPages, setMaxPages] = useState("Default (20)");
+    const [resultsPerPage, setResultsPerPage] = useState(itemsPerPage);
+    const [sortBy, setSortBy] = useState("Origin date (old - new)");
 
+    let searchString = `/search?departmentId=${department || "*"}&q=${keyword || "*"}`;
+
+    //Add keyword to the above searchString
+    const handleKeywordChange = (event) => {
+        event.preventDefault();
+        // console.log(searchString);
+        setKeyword(event.target.value)
+    }
+
+    //Add department to the above searchstring
+    const handleDepartmentChange = (event) => {
+        // event.preventDefault();
+
+        const selectedDepartmentName = event.target.value;
+        const selectedDepartment = departments.find((department) => Object.keys(department)[0] === selectedDepartmentName);
+
+        const departmentId = Object.values(selectedDepartment)[0]
+        setDepartment(departmentId);
+    };
+
+    const handleResultsPerPageChange = (event) => {
+        const selectedValue = event.target.value;
+        setResultsPerPage(Number(selectedValue));
+    };
+    itemsPerPage = resultsPerPage
+
+    const handleMaximumPages = (event) => {
+        const selectedValue = event.target.value;
+        // console.log(selectedValue, typeof(selectedValue))
+        setMaxPages(Number(selectedValue));
+    };
+
+    useEffect(() => {
+        const fetchDepartments = async () => {
+            const departmentArray = []
+            const metDepartments = await metRequests.getDepartments();
+            metDepartments.forEach((department)=>{
+                let id = department["departmentId"]
+                let name = department["displayName"]
+                departmentArray.push({[name]:id})
+            })
+            setDepartments(departmentArray)
+            // console.log(departments)
+        }
+        fetchDepartments()
+    },[])
+
+    console.log(`Commencing search for ${keyword} in department: ${department} with ${resultsPerPage} results per page for ${maxPages} pages`)
     useEffect(() => {
         const fetchAllArtworks = async () => {
             if (!searchInitiated) return; // Do nothing if the search hasn't been initiated
@@ -18,7 +73,7 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
 
             // To avoid the API call being repeated, it is being run conditionally
             if (totalResults.length === 0) {
-                const validObjects = await metRequests.getSearchElements();
+                const validObjects = await metRequests.getSearchElements(searchString, resultsPerPage, maxPages);
                 setTotalResults(validObjects); // This sets all objects into a state variable, makes pagination simpler but increases load time. Most importantly, it will allow for sorting
                 setArtworks(validObjects.slice(0, itemsPerPage)); 
             } else {
@@ -34,10 +89,11 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
     }, [currentPage, totalResults, searchInitiated]); // If currentPage or totalResults is altered, the function will be called again
 
   const totalItems = totalResults.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const totalPages = Math.ceil(totalItems / resultsPerPage);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    window.scrollTo(0, 0)
   };
 
     const handleSearchInitiate = () => {
@@ -65,31 +121,38 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
 
                         <Form.Group className="mb-3">
                             <Form.Label>Filter by Department</Form.Label>
-                            <Form.Control as="select">
+                            <Form.Control as="select" onChange={handleDepartmentChange}>
                             <option>All</option>
-                            <option>1</option>
-                            <option>2</option>
+                           {departments.map((department)=>{
+                            return <option key={Object.keys(department)}>{Object.keys(department)}</option>
+                           })}
                             </Form.Control>
                         </Form.Group>
 
-                        <Form.Group className="mb-3">
+                        {/* <Form.Group className="mb-3">
                             <Form.Label>Date Range</Form.Label>
                             <div className="d-flex">
                                 <Form.Control type="number" placeholder="From (Year)" className="me-2" />
                                 <Form.Control type="number" placeholder="To (Year)" />
                             </div>
-                        </Form.Group>
+                        </Form.Group> */}
 
                         <Form.Group className="mb-3">
                             <Form.Label>Keyword</Form.Label>
-                            <Form.Control type="text" placeholder="Enter keyword (e.g., artist, title)" />
+                               <Form.Control
+                                    type="text"
+                                    placeholder="Please enter a single keyword"
+                                    // value={keyword}
+                                    onChange={handleKeywordChange}
+                                />
                         </Form.Group>
 
                         <Form.Group className="mb-3">
                             <Form.Label>Maximum Pages</Form.Label>
                                 <p className="smallprint">(A higher number will increase API response time. Recommended to stay below 20)</p>
-                            <Form.Control as="select">
+                            <Form.Control as="select" onChange={handleMaximumPages}>
                                 <option>Default (20)</option>
+                                <option>2</option>
                                 <option>5</option>
                                 <option>10</option>
                                 <option>15</option>
@@ -100,7 +163,7 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
                         <Form.Group className="mb-3">
                             <Form.Label>Results Per Page</Form.Label>
                                 <p className="smallprint">(A higher number will increase API response time. Recommended to stay below 20)</p>
-                            <Form.Control as="select">
+                            <Form.Control as="select" onChange={handleResultsPerPageChange}>
                                 <option>Default (9)</option>
                                 <option>3</option>
                                 <option>6</option>

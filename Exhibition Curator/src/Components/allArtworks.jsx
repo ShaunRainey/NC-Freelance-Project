@@ -31,9 +31,9 @@ function AllArtworks({ artworks, setArtworks, validObjectIDs, setValidObjectIDs,
   const totalItems = validObjectIDs.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  // Handle page changes
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    window.scrollTo(0, 0)
   };
 
   if (loading) {

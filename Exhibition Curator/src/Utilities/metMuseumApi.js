@@ -40,15 +40,6 @@ const getTotalObjectNumbers = () => {
         .catch(handleError);
 };
 
-// const getObjectByID = (objectID) => {
-//     // returns an object
-//     return metMuseum.get(`/objects/${objectID}`)
-//         .then((response) => {
-//             return response.data
-//         })
-//         .catch(handleError);
-// }
-
 const getObjectByID = (objectID) => {
   return metMuseum.get(`/objects/${objectID}`)
     .then((response) => {
@@ -90,8 +81,6 @@ const getAllImagedArtworks = async (searchWords, page = 1, itemsPerPage = 9) => 
     const response = await metMuseum.get(searchString);
     const objectIDs = response.data.objectIDs;
 
-    console.log("Fetched object IDs:", objectIDs);
-
     // Ensure the cache contains enough valid IDs to render the requested page
     const requiredValidIDs = page * itemsPerPage;
 
@@ -110,14 +99,10 @@ const getAllImagedArtworks = async (searchWords, page = 1, itemsPerPage = 9) => 
       currentIndex++;
     }
 
-    console.log("Valid artworks in cache:", validIDCache);
-
     // Slice the cache to return only the items for the requested page
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const paginatedArtworks = validIDCache.slice(startIndex, endIndex);
-
-    console.log("Artworks for current page:", paginatedArtworks);
 
     return paginatedArtworks;
   } catch (error) {
@@ -152,8 +137,7 @@ const getRandomImagedArtworks = async (count = 9) => {
   return randomIDs
 };
 
-const getSearchElements = async (searchArray, page = 1, itemsPerPage = 9) => {
-  let searchString = "/search?departmentId=1&q=a";
+const getSearchElements = async (searchString="/search?q=isHighlight", itemsPerPage=9, numberOfPages=4) => {
 
   const response = await metMuseum.get(searchString);
   const objectIDs = response.data.objectIDs;
@@ -161,13 +145,12 @@ const getSearchElements = async (searchArray, page = 1, itemsPerPage = 9) => {
   let newArray = []
 
   let index = 0;
-  while(index < objectIDs.length && newArray.length < 36){ // Creates 20 pages of artwork with 180
+  while(index < objectIDs.length && newArray.length < numberOfPages*itemsPerPage){
     const id = objectIDs[index];
     try{
       const artworkResponse = await metMuseum.get(`/objects/${id}`)
       if (artworkResponse.data.primaryImageSmall) {
         newArray.push(artworkResponse.data);
-        // console.log(newArray)
       }
     } catch (error){
         console.log(error)
@@ -175,12 +158,6 @@ const getSearchElements = async (searchArray, page = 1, itemsPerPage = 9) => {
       index ++;
     }
 
-    const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-
-    const paginatedArtworks = newArray.slice(startIndex, endIndex);
-
-    console.log("Talking about pagination: ",paginatedArtworks);
     return newArray
 }
 
@@ -197,3 +174,5 @@ export default {
 
 
 	767421, 573446, 193506, 340855, 26627;
+
+  console.log(getValidObjectNumbers())

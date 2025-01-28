@@ -29,7 +29,7 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [validObjectIDs, setValidObjectIDs] = useState([]); // To store all valid object IDs
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+  const [itemsPerPage, setItemsPerPage] = useState(9);
 
 
   const exampleArtwork = {
