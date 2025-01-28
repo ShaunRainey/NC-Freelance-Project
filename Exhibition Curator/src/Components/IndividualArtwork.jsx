@@ -5,8 +5,23 @@ import { useParams } from "react-router";
 import Loading from "./Loading";
 
 function IndividualArtwork({artPiece, setArtPiece, loading, setLoading}) {
-    console.log(artPiece)
-    const {objectID} = useParams() 
+  console.log(artPiece)
+  const {objectID} = useParams() 
+
+  const saveToExhibition = (artPiece) => {
+    const exhibitions = JSON.parse(localStorage.getItem("exhibitions")) || {};
+    const exhibitionName = prompt("Enter the exhibition name:"); // Ask user for exhibition name
+
+    if (!exhibitionName) return;
+
+    if (!exhibitions[exhibitionName]) {
+      exhibitions[exhibitionName] = [];
+    }
+
+    exhibitions[exhibitionName].push(artPiece);
+    localStorage.setItem("exhibitions", JSON.stringify(exhibitions));
+    alert(`${artPiece.title} saved to "${exhibitionName}"`);
+  };
 
   useEffect(() => {
     setLoading(true)
@@ -57,7 +72,7 @@ if(loading){
     
                   <Row>
                     <Col>
-                        <Button>Add to collection</Button>
+                        <Button onClick={() => saveToExhibition(artPiece)}>Save to Exhibition</Button>
                     </Col>
                   </Row>
               </Container>
