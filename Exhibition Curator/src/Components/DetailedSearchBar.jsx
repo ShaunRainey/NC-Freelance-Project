@@ -23,7 +23,6 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
     //Add keyword to the above searchString
     const handleKeywordChange = (event) => {
         event.preventDefault();
-        // console.log(searchString);
         setKeyword(event.target.value)
     }
 
@@ -39,16 +38,23 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
     };
 
     const handleResultsPerPageChange = (event) => {
-        const selectedValue = event.target.value;
+        let selectedValue = event.target.value;
+        if(selectedValue.length > 2){selectedValue = "9"}
         setResultsPerPage(Number(selectedValue));
     };
     itemsPerPage = resultsPerPage
 
     const handleMaximumPages = (event) => {
-        const selectedValue = event.target.value;
-        // console.log(selectedValue, typeof(selectedValue))
+        let selectedValue = event.target.value;
+        if(selectedValue.length > 2){selectedValue = "20"}
         setMaxPages(Number(selectedValue));
     };
+
+    const handleSortBy = (event) => {
+        const selectedValue = event.target.value;
+        // console.log(selectedValue)
+        setSortBy(selectedValue)
+    }
 
     useEffect(() => {
         const fetchDepartments = async () => {
@@ -60,12 +66,11 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
                 departmentArray.push({[name]:id})
             })
             setDepartments(departmentArray)
-            // console.log(departments)
         }
         fetchDepartments()
     },[])
 
-    console.log(`Commencing search for ${keyword} in department: ${department} with ${resultsPerPage} results per page for ${maxPages} pages`)
+    // console.log(`Commencing search for ${keyword} in department: ${department} with ${resultsPerPage} results per page for ${maxPages} pages`)
     useEffect(() => {
         const fetchAllArtworks = async () => {
             if (!searchInitiated) return; // Do nothing if the search hasn't been initiated
@@ -74,6 +79,19 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
             // To avoid the API call being repeated, it is being run conditionally
             if (totalResults.length === 0) {
                 const validObjects = await metRequests.getSearchElements(searchString, resultsPerPage, maxPages);
+                
+                if(sortBy === "Origin date (old - new)"){validObjects.sort((a, b) => (a["objectBeginDate"] || 0) - (b["objectBeginDate"] || 0))}
+                else if(sortBy === "Origin date (new - old)"){validObjects.sort((a, b) => (b["objectBeginDate"] || 0) - (a["objectBeginDate"] || 0))}
+                else if(sortBy === "Title (A-Z)"){validObjects.sort((a, b) => (a["title"] || "").toLowerCase().localeCompare((b["title"] || "").toLowerCase()))}
+                else if(sortBy === "Title (Z-A)"){validObjects.sort((a, b) => (b["title"] || "").toLowerCase().localeCompare((a["title"] || "").toLowerCase()))}
+                else if(sortBy === "Artist (A-Z)"){validObjects.sort((a, b) => (a["artistDisplayName"] || "").toLowerCase().localeCompare((b["artistDisplayName"] || "").toLowerCase()))}
+                else if(sortBy === "Artist (Z-A)"){validObjectsobjectList.sort((a, b) => (b["artistDisplayName"] || "").toLowerCase().localeCompare((a["artistDisplayName"] || "").toLowerCase()))}
+                else if(sortBy === "Department (A-Z)"){validObjects.sort((a, b) => (a["department"] || "").toLowerCase().localeCompare((b["department"] || "").toLowerCase()))}
+                else if(sortBy === "Department (Z-A)"){validObjects.sort((a, b) => (b["department"] || "").toLowerCase().localeCompare((a["department"] || "").toLowerCase()))}
+                else if(sortBy === "Acquisition (Newest)"){validObjects.sort((a, b) => (a["accessionYear"] || 0) - (b["accessionYear"] || 0))}
+                else if(sortBy === "Acquisition (Oldest)"){validObjects.sort((a, b) => (b["accessionYear"] || 0) - (a["accessionYear"] || 0))}
+                else if(sortBy === "Department (A-Z)"){}
+                 
                 setTotalResults(validObjects); // This sets all objects into a state variable, makes pagination simpler but increases load time. Most importantly, it will allow for sorting
                 setArtworks(validObjects.slice(0, itemsPerPage)); 
             } else {
@@ -178,7 +196,7 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
 
                         <Form.Group className="mb-3">
                             <Form.Label>Sort By</Form.Label>
-                            <Form.Control as="select">
+                            <Form.Control as="select" onChange={handleSortBy}>
                             <option>Origin date (old - new)</option>
                             <option>Origin date (new - old)</option>
                             <option>Title (A-Z)</option>
@@ -188,6 +206,8 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
                             <option>Department (A-Z)</option>
                             <option>Department (Z-A)</option>
                             <option>Recently Added</option>
+                            <option>Acquisition (Newest)</option>
+                            <option>Acquisition (Oldest)</option>
                             </Form.Control>
                         </Form.Group>
 
@@ -255,15 +275,3 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
 export default DetailedSearch;
 
 
-/* Considerations:
-
-- Sort by:
-    - Origin date (old - new)
-    - Origin date (new - old)
-    - Title (A-Z)
-    - Title (Z-A)
-    - Artist (A-Z)
-    - Artist (Z-A)
-    - Department (A-Z)
-    - Department (Z-A)
-*/
