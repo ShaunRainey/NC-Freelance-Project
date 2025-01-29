@@ -1,6 +1,7 @@
 import { useParams } from "react-router";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useState } from "react";
+import handleError from "../Utilities/handleError";
 
 function ViewExhibition() {
   const { exhibitionName } = useParams();

@@ -1,6 +1,7 @@
 import { Container, ListGroup, Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { useState } from "react";
+import handleError from "../Utilities/handleError";
 
 function SavedExhibitions() {
   const navigate = useNavigate();

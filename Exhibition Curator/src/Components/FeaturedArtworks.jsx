@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { Link } from 'react-router'
 import Loading from "./Loading";
+import handleError from "../Utilities/handleError";
 
 function FeaturedArtworks({artworks, setArtworks, loading, setLoading}) {
   const [artworkIDs, setArtworkIDs] = useState([]);

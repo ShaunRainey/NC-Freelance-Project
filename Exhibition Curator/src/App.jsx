@@ -6,7 +6,6 @@ import { useState } from 'react'
 
 import FeaturedArtworks from "./Components/featuredArtworks";
 import IndividualArtwork from "./Components/IndividualArtwork";
-import SearchBox from './Components/searchBox'
 import NavBar from './Components/NavBar'
 import AllArtworks from "./Components/allArtworks";
 import DetailedSearch from './Components/DetailedSearchBar';
@@ -25,6 +24,7 @@ function App() {
   const [validObjectIDs, setValidObjectIDs] = useState([]); // To store all valid object IDs
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(9);
+  const [museum, setMuseum] = useState("The Met Museum");
 
 return (
   <Container>
@@ -35,7 +35,7 @@ return (
         element={
           <Row>
             <Col>
-              <FeaturedArtworks artworks={artworks} setArtworks={setArtworks} loading = {loading} setLoading = {setLoading}/>
+              <FeaturedArtworks artworks={artworks} setArtworks={setArtworks} loading = {loading} setLoading = {setLoading} museum={museum} setMuseum={setMuseum}/>
             </Col>
           </Row>
           }
@@ -47,12 +47,12 @@ return (
         />
 
         <Route path="/all-artworks/" element={
-          <AllArtworks artworks={artworks} setArtworks={setArtworks} loading={loading} setLoading = {setLoading} validObjectIDs= {validObjectIDs} setValidObjectIDs={setValidObjectIDs} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage}/>
+          <AllArtworks artworks={artworks} setArtworks={setArtworks} loading={loading} setLoading = {setLoading} validObjectIDs= {validObjectIDs} setValidObjectIDs={setValidObjectIDs} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} museum={museum} setMuseum={setMuseum}/>
           } 
         />
 
         <Route path="/detailed-search" element={
-          <DetailedSearch artworks={artworks} setArtworks={setArtworks} loading={loading} setLoading = {setLoading} validObjectIDs= {validObjectIDs} setValidObjectIDs={setValidObjectIDs} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage}/>
+          <DetailedSearch artworks={artworks} setArtworks={setArtworks} loading={loading} setLoading = {setLoading} validObjectIDs= {validObjectIDs} setValidObjectIDs={setValidObjectIDs} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} museum={museum} setMuseum={setMuseum}/>
           }
         />
 
@@ -62,6 +62,7 @@ return (
         />
 
         <Route path="/exhibition/:exhibitionName" element={<ViewExhibition />} />
+        
 
       </Routes>
 

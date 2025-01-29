@@ -4,6 +4,7 @@ import { useLocation, Link } from "react-router"; // Updated import for 'react-r
 import Loading from "./Loading";
 import metRequests from "../Utilities/metMuseumApi";
 import PageBar from "./PageBar";
+import handleError from "../Utilities/handleError";
 
 function AllArtworks({ artworks, setArtworks, validObjectIDs, setValidObjectIDs, currentPage, setCurrentPage, itemsPerPage, loading, setLoading }) {
 

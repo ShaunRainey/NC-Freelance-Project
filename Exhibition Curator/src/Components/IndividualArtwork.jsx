@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import metRequests from "../Utilities/metMuseumApi";
 import { useParams } from "react-router";
 import Loading from "./Loading";
+import handleError from "../Utilities/handleError";
 
 function IndividualArtwork({artPiece, setArtPiece, loading, setLoading}) {
   console.log(artPiece)

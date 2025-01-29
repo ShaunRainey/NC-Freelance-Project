@@ -4,14 +4,15 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import PageBar from "./PageBar";
 import Loading from "./Loading";
+import handleError from "../Utilities/handleError";
+import vamRequests from "../Utilities/vamMuseum"
 
-function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, itemsPerPage, loading, setLoading}) {
+function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, itemsPerPage, loading, setLoading, museum, setMuseum}) {
     const [searchInitiated, setSearchInitiated] = useState(false)
     const [totalResults, setTotalResults] = useState([]);
     const [departments, setDepartments] = useState([]);
 
     //Form choices
-    const [museum, setMuseum] = useState("The Met Museum");
     const [department, setDepartment] = useState("");
     const [keyword, setKeyword] = useState("");
     const [maxPages, setMaxPages] = useState("Default (20)");
@@ -19,6 +20,12 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
     const [sortBy, setSortBy] = useState("Origin date (old - new)");
 
     let searchString = `/search?departmentId=${department || "*"}&q=${keyword || "*"}`;
+
+    const handleMuseumChange = (event) => {
+      // console.log(event.target.value)
+      setMuseum(event.target.value)
+      vamRequests.fetchObjectsWithImages().then((response) => {console.log(response)})
+    }
 
     //Add keyword to the above searchString
     const handleKeywordChange = (event) => {
@@ -37,6 +44,7 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
         setDepartment(departmentId);
     };
 
+    //Pass a value to the function that makes the API call
     const handleResultsPerPageChange = (event) => {
         let selectedValue = event.target.value;
         if(selectedValue.length > 2){selectedValue = "9"}
@@ -44,12 +52,14 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
     };
     itemsPerPage = resultsPerPage
 
+    //Pass a value to the function that makes the API call
     const handleMaximumPages = (event) => {
         let selectedValue = event.target.value;
         if(selectedValue.length > 2){selectedValue = "20"}
         setMaxPages(Number(selectedValue));
     };
 
+    //Determines how the information that returns from the API is arranged
     const handleSortBy = (event) => {
         const selectedValue = event.target.value;
         // console.log(selectedValue)
@@ -77,6 +87,8 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
             setLoading(true);
 
             // To avoid the API call being repeated, it is being run conditionally
+            // If there is currently nothing saved in results, the call hasn't been run previously
+            // If there are results saved, the API call has been made, so it shouldn't be called again
             if (totalResults.length === 0) {
                 const validObjects = await metRequests.getSearchElements(searchString, resultsPerPage, maxPages);
                 
@@ -114,14 +126,13 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
     window.scrollTo(0, 0)
   };
 
-    const handleSearchInitiate = () => {
-    setSearchInitiated(true); // Trigger the rendering of artworks
+  const handleSearchInitiate = () => {
+  setSearchInitiated(true); // Trigger the rendering of artworks
   };
 
-  if (!searchInitiated) {
+  if (!searchInitiated && museum === "The Met Museum") { //If the search hasn't been initiated, render the search form
     return (
       <Container className="text-center mt-5">   
-
         <Row>
             <Col xs={12} md={12}>
                 <div className="p-3 bg-light">
@@ -131,12 +142,12 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
 
                         <Form.Group className="mb-3">
                             <Form.Label>Filter by Museum</Form.Label>
-                            <Form.Control as="select">
+                            <Form.Control as="select" onChange={handleMuseumChange}>
                             <option>The Met Museum</option>
                             <option>Option 2</option>
                             </Form.Control>
                         </Form.Group>
-
+      
                         <Form.Group className="mb-3">
                             <Form.Label>Filter by Department</Form.Label>
                             <Form.Control as="select" onChange={handleDepartmentChange}>
@@ -146,14 +157,6 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
                            })}
                             </Form.Control>
                         </Form.Group>
-
-                        {/* <Form.Group className="mb-3">
-                            <Form.Label>Date Range</Form.Label>
-                            <div className="d-flex">
-                                <Form.Control type="number" placeholder="From (Year)" className="me-2" />
-                                <Form.Control type="number" placeholder="To (Year)" />
-                            </div>
-                        </Form.Group> */}
 
                         <Form.Group className="mb-3">
                             <Form.Label>Keyword</Form.Label>
@@ -193,7 +196,6 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
                             </Form.Control>
                         </Form.Group>
 
-
                         <Form.Group className="mb-3">
                             <Form.Label>Sort By</Form.Label>
                             <Form.Control as="select" onChange={handleSortBy}>
@@ -208,6 +210,36 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
                             <option>Recently Added</option>
                             <option>Acquisition (Newest)</option>
                             <option>Acquisition (Oldest)</option>
+                            </Form.Control>
+                        </Form.Group>
+
+                        <Button variant="primary" size="lg" onClick={handleSearchInitiate}>
+                            Search
+                        </Button>
+
+                    </Form>
+                </div>
+            </Col>
+        </Row>
+      </Container>
+    );
+  }
+
+  if (!searchInitiated && museum === "Option 2") { //If the search hasn't been initiated, render the search form
+    return (
+      <Container className="text-center mt-5">   
+        <Row>
+            <Col xs={12} md={12}>
+                <div className="p-3 bg-light">
+                <h5>Search Box:</h5>
+
+                    <Form>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Filter by Museum</Form.Label>
+                            <Form.Control as="select" onChange={handleMuseumChange}>
+                            <option>The Met Museum</option>
+                            <option>Option 2</option>
                             </Form.Control>
                         </Form.Group>
 

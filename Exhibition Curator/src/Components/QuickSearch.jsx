@@ -1,5 +1,6 @@
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { useState } from "react";
+import handleError from "../Utilities/handleError";
 
 function QuickSearch({onSearch}) {
 

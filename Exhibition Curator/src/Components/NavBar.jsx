@@ -1,6 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { Link, useNavigate } from 'react-router'
 import QuickSearch from "./QuickSearch";
+import handleError from "../Utilities/handleError";
 
 function NavBar() {
 

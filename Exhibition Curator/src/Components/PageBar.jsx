@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+import handleError from "../Utilities/handleError";
 
 const PageBar = ({ currentPage, totalPages, onPageChange, maxVisiblePages = 5 }) => {
   // Calculate the range of pages to display
