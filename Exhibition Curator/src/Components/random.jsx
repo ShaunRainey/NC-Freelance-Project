@@ -1,39 +1,24 @@
-import metRequests from "../Utilities/metMuseumApi";
+import vamRequests from "../Utilities/vamMuseum"
 import { useState, useEffect } from "react";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { Link } from 'react-router'
 import Loading from "./Loading";
 import handleError from "../Utilities/handleError";
 
-function FeaturedArtworks({artworkIDs, setArtworkIDs, artworks, setArtworks, loading, setLoading}) {
+function Random({artworkIDs, setArtworkIDs, artworks, setArtworks, loading, setLoading}) {
 
-
-  useEffect(() => {
+    useEffect(() => {
     const getArtworksIDs = async () => {
       setLoading(true)
-      const imagedArtworks = await metRequests.getRandomImagedArtworks();
+      const imagedArtworks = await vamRequests.fetchRandomObjects();
       setArtworkIDs(imagedArtworks);
     };
     getArtworksIDs();
+    setLoading(false)
   }, []);
 
-  useEffect(() => {
-    if (artworkIDs.length !== 0) {
-      const fetchArtworks = async () => {
-        const artworkPromises = artworkIDs.map((ID) => {
-          return metRequests.getObjectByID(ID);
-        });
-        const artworkData = await Promise.all(artworkPromises);
-
-        setArtworks(artworkData);
-      };
-      fetchArtworks();
-      setLoading(false)
-    }
-  }, [artworkIDs]);
-
-
-  if(loading){
+  console.log(artworkIDs)
+ if(loading){
     return (
     <Container>
       <Loading/>
@@ -43,13 +28,15 @@ function FeaturedArtworks({artworkIDs, setArtworkIDs, artworks, setArtworks, loa
     return (
       <Container>
         <Row>
-          {artworks.map((artwork) => (
-            <Col md={4} key={artwork["objectID"]} className="mb-4">
-              <Link to={`/artwork/${artwork.objectID}`}>
+          {artworkIDs.map((artwork) => (
+            
+            <Col md={4} className="mb-4">
+              {/* <Link to={`/artwork/${artwork.objectID}`}> */}
+              {console.log(artwork["_primaryImageId"])}
                 <Card className="custom-card">
                   <Card.Img
                     variant="top"
-                    src={artwork["primaryImageSmall"]}
+                    src={`https://framemark.vam.ac.uk/collections/${artwork["_primaryImageId"]}/full/600,400/0/default.jpg`}
                     alt="Artwork"
                     className="Card-img"
                   />
@@ -58,11 +45,11 @@ function FeaturedArtworks({artworkIDs, setArtworkIDs, artworks, setArtworks, loa
                       {artwork.title || "Untitled"}
                     </Card.Title>
                     <Card.Text className="custom-card-text">
-                      {artwork.artistDisplayName || "Unknown Artist"}
+                      {artwork["_primaryMaker"]["name"] || "Unknown Artist"}
                     </Card.Text>
                   </Card.Body>
                 </Card>
-              </Link>
+              {/* </Link> */}
             </Col>
           ))}
         </Row>
@@ -71,4 +58,4 @@ function FeaturedArtworks({artworkIDs, setArtworkIDs, artworks, setArtworks, loa
   }
 }
 
-export default FeaturedArtworks;
+export default Random;

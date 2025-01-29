@@ -11,6 +11,7 @@ import AllArtworks from "./Components/allArtworks";
 import DetailedSearch from './Components/DetailedSearchBar';
 import SavedExhibitions from './Components/SavedExhibitions';
 import ViewExhibition from './Components/ViewExhibition';
+import Random from './Components/random';
 
 /* 
 Implement picture zoom
@@ -25,6 +26,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(9);
   const [museum, setMuseum] = useState("The Met Museum");
+  const [artworkIDs, setArtworkIDs] = useState([]);
 
 return (
   <Container>
@@ -35,7 +37,7 @@ return (
         element={
           <Row>
             <Col>
-              <FeaturedArtworks artworks={artworks} setArtworks={setArtworks} loading = {loading} setLoading = {setLoading} museum={museum} setMuseum={setMuseum}/>
+              <FeaturedArtworks artworkIDs={artworkIDs} setArtworkIDs={setArtworkIDs} artworks={artworks} setArtworks={setArtworks} loading = {loading} setLoading = {setLoading} museum={museum} setMuseum={setMuseum}/>
             </Col>
           </Row>
           }
@@ -62,6 +64,8 @@ return (
         />
 
         <Route path="/exhibition/:exhibitionName" element={<ViewExhibition />} />
+
+        <Route path="/random" element={<Random artworkIDs={artworkIDs} setArtworkIDs={setArtworkIDs} artworks={artworks} setArtworks={setArtworks} loading = {loading} setLoading = {setLoading} museum={museum} setMuseum={setMuseum}/>} />
         
 
       </Routes>

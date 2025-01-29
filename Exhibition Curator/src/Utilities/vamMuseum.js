@@ -11,7 +11,7 @@ const fetchObjectsWithImages = async () => {
             params: {q: "", images_exist:1, page: 1, page_size: 100 }});
             let results = response.data.records
             results.forEach(element => {
-                console.log(element["_primaryImageId"])
+                // console.log(element["_primaryImageId"])
             });
        return response.data.records
 
@@ -20,12 +20,35 @@ const fetchObjectsWithImages = async () => {
     }
 };
 
-fetchObjectsWithImages()
+
+
+const fetchRandomObjects = async()=>{
+    const newArray = []
+    let count = 0
+    while(newArray.length < 100){
+        const imagedObjects = await fetchObjectsWithImages()
+        imagedObjects.forEach((object) => newArray.push(object))
+        count ++
+    }
+
+    const pickRandomObjects = (randomArray, numRandom = 9) => {
+    return randomArray.sort(() => Math.random() - 0.5).slice(0, numRandom);
+    }
+    
+    const randomArray = pickRandomObjects(newArray, 9)
+    // randomArray.forEach((obj) => {console.log(obj["_primaryImageId"])})
+    return randomArray
+
+}
+
+fetchRandomObjects()
 
 
 
 
 
 
-// export default {fetchObjectsWithImages}
+
+
+export default {fetchObjectsWithImages, fetchRandomObjects}
 
