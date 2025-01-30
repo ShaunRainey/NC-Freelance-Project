@@ -12,7 +12,7 @@ function FeaturedArtworks({artPiece, setArtPiece, artworkIDs, setArtworkIDs, art
 
         <Row>
           <Form>
-            <FilterMuseum handleMuseumChange={handleMuseumChange} />
+            <FilterMuseum museum={museum} handleMuseumChange={handleMuseumChange} />
           </Form>
         </Row>
 
@@ -25,7 +25,7 @@ function FeaturedArtworks({artPiece, setArtPiece, artworkIDs, setArtworkIDs, art
 
           <Row>
             <Form>
-              <FilterMuseum handleMuseumChange={handleMuseumChange} />
+              <FilterMuseum museum={museum} handleMuseumChange={handleMuseumChange} />
             </Form>
           </Row>
 

@@ -138,7 +138,7 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
                 <h5>Search Box:</h5>
 
                     <Form>
-                      <FilterMuseum handleMuseumChange = {handleMuseumChange}/>
+                      <FilterMuseum museum={museum} handleMuseumChange = {handleMuseumChange}/>
 
                         <Form.Group className="mb-3">
                             <Form.Label>Filter by Department</Form.Label>
@@ -227,7 +227,7 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
 
                     <Form>
 
-                      <FilterMuseum handleMuseumChange = {handleMuseumChange}/>
+                      <FilterMuseum museum={museum} handleMuseumChange = {handleMuseumChange}/>
 
                         <Button variant="primary" size="lg" onClick={handleSearchInitiate}>
                             Search
