@@ -1,7 +1,6 @@
-import { Container, ListGroup, Button, Row, Col } from "react-bootstrap";
+import { Container, ListGroup, Button, Row, Col, Badge } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import handleError from "../Utilities/handleError";
 
 function SavedExhibitions() {
   const navigate = useNavigate();
@@ -10,12 +9,11 @@ function SavedExhibitions() {
   );
 
   const deleteExhibition = (exhibitionName) => {
-    // Confirm with the user
     if (window.confirm(`Are you sure you want to delete "${exhibitionName}"?`)) {
       const updatedExhibitions = { ...exhibitions };
       delete updatedExhibitions[exhibitionName];
       localStorage.setItem("exhibitions", JSON.stringify(updatedExhibitions));
-      setExhibitions(updatedExhibitions); // Update state
+      setExhibitions(updatedExhibitions);
       alert(`Exhibition "${exhibitionName}" deleted.`);
     }
   };
@@ -28,7 +26,7 @@ function SavedExhibitions() {
           {Object.keys(exhibitions).map((exhibition) => (
             <ListGroup.Item key={exhibition}>
               <Row>
-                <Col xs={8}>
+                <Col xs={6}>
                   <span
                     onClick={() => navigate(`/exhibition/${exhibition}`)}
                     style={{ cursor: "pointer", fontWeight: "bold" }}
@@ -36,12 +34,14 @@ function SavedExhibitions() {
                     {exhibition}
                   </span>
                 </Col>
-                <Col xs={4} className="text-end">
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={() => deleteExhibition(exhibition)}
-                  >
+                <Col xs={3}>
+                  {/* Display museum source as a badge */}
+                  <Badge bg={exhibitions[exhibition].museum === "vam" ? "info" : "secondary"}>
+                    {/* {exhibitions[exhibition].museum.toUpperCase()} */}
+                  </Badge>
+                </Col>
+                <Col xs={3} className="text-end">
+                  <Button variant="danger" size="sm" onClick={() => deleteExhibition(exhibition)}>
                     Delete
                   </Button>
                 </Col>

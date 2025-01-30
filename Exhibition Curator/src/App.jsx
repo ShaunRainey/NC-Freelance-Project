@@ -11,8 +11,6 @@ import AllArtworks from "./Components/allArtworks";
 import DetailedSearch from './Components/DetailedSearchBar';
 import SavedExhibitions from './Components/SavedExhibitions';
 import ViewExhibition from './Components/ViewExhibition';
-import VamRandom from './Components/VamRandom';
-import MetRandom from './Components/metRandom';
 import VamIndividualArtwork from './Components/VamIndividualArtwork';
 
 /* 
@@ -51,14 +49,12 @@ return (
         />
 
         <Route path="/met-artwork/:objectID" element={
-          <IndividualArtwork artPiece={artPiece} setArtPiece={setArtPiece} loading = {loading} setLoading = {setLoading}/>
-          }
-        />
+          <IndividualArtwork artPiece={artPiece} setArtPiece={setArtPiece} loading={loading} setLoading={setLoading} />
+        } />
 
         <Route path="/vam-artwork/:objectID" element={
-          <VamIndividualArtwork artPiece={artPiece} setArtPiece={setArtPiece} loading = {loading} setLoading = {setLoading}/>
-          }
-        />
+          <VamIndividualArtwork artPiece={artPiece} setArtPiece={setArtPiece} loading={loading} setLoading={setLoading} />
+        } />
 
         <Route path="/all-artworks/" element={
           <AllArtworks artworks={artworks} setArtworks={setArtworks} loading={loading} setLoading = {setLoading} validObjectIDs= {validObjectIDs} setValidObjectIDs={setValidObjectIDs} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} museum={museum} setMuseum={setMuseum} handleMuseumChange = {handleMuseumChange}/>
@@ -70,25 +66,8 @@ return (
           }
         />
 
-        <Route path="/saved-exhibitions" element={
-            <SavedExhibitions/>
-          }
-        />
-{/* 
+        <Route path="/saved-exhibitions" element={<SavedExhibitions />} />
         <Route path="/exhibition/:exhibitionName" element={<ViewExhibition />} />
-
-        <Route path="/random" element={<VamRandom artworkIDs={artworkIDs} setArtworkIDs={setArtworkIDs} artworks={artworks} setArtworks={setArtworks} loading = {loading} setLoading = {setLoading} museum={museum} setMuseum={setMuseum}/>} />
-        
-        <Route path="/modnar" 
-        element={
-          <Row>
-            <Col>
-              {<MetRandom artworkIDs={artworkIDs} setArtworkIDs={setArtworkIDs} artworks={artworks} setArtworks={setArtworks} loading = {loading} setLoading = {setLoading} museum={museum} setMuseum={setMuseum} handleMuseumChange = {handleMuseumChange}/>}
-            </Col>
-          </Row>
-          }
-        /> */}
-
 
       </Routes>
 

@@ -43,14 +43,15 @@ function AllArtworks({ artworks, setArtworks, validObjectIDs, setValidObjectIDs,
         <Loading />
       </Container>
     );
-  } else {
+  } 
+
     return (
       <Container>
         {/* Artwork Cards */}
         <Row>
           {artworks.map((artwork) => (
             <Col md={4} key={artwork.objectID} className="mb-4">
-              <Link to={`/artwork/${artwork.objectID}`}>
+              <Link to={`/met-artwork/${artwork.objectID}`}>
                 <Card className="custom-card">
                   <Card.Img
                     variant="top"
@@ -85,7 +86,6 @@ function AllArtworks({ artworks, setArtworks, validObjectIDs, setValidObjectIDs,
         </Row>
       </Container>
     );
-  }
 }
 
 export default AllArtworks;

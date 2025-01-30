@@ -25,20 +25,29 @@ function VamIndividualArtwork({artPiece, setArtPiece, loading, setLoading}) {
     setLoading(false)
   },[objectID, setArtPiece, setLoading])
 
-//   const saveToExhibition = (artPiece) => {
-//     const exhibitions = JSON.parse(localStorage.getItem("exhibitions")) || {};
-//     const exhibitionName = prompt("Enter the exhibition name:"); // Ask user for exhibition name
+const saveToExhibition = (artPiece) => {
+  if (!artPiece) {
+    alert("No artwork data available to save.");
+    return;
+  }
 
-//     if (!exhibitionName) return;
+  const exhibitions = JSON.parse(localStorage.getItem("exhibitions")) || {};
+  const exhibitionName = prompt("Enter the exhibition name:"); // Ask user for exhibition name
 
-//     if (!exhibitions[exhibitionName]) {
-//       exhibitions[exhibitionName] = [];
-//     }
+  if (!exhibitionName) {return};
 
-//     exhibitions[exhibitionName].push(artPiece);
-//     localStorage.setItem("exhibitions", JSON.stringify(exhibitions));
-//     alert(`${artPiece.title} saved to "${exhibitionName}"`);
-//   };
+  // Ensure exhibition entry exists with correct museum identifier
+  if (!exhibitions[exhibitionName]) {
+    exhibitions[exhibitionName] = { museum: "vam", artworks: [] }; // ✅ Set museum as "vam"
+  }
+
+  exhibitions[exhibitionName].artworks.push({ ...artPiece, museum: "vam" }); // ✅ Ensure artwork has museum field
+
+  localStorage.setItem("exhibitions", JSON.stringify(exhibitions));
+
+  alert(`${artPiece?.titles?.[0]?.title || "Untitled"} saved to "${exhibitionName}"`);
+};
+
 
   if (loading || !artPiece) {
     return (
@@ -83,5 +92,6 @@ function VamIndividualArtwork({artPiece, setArtPiece, loading, setLoading}) {
     </Container>
           )
 }
+
 
 export default VamIndividualArtwork;

@@ -8,33 +8,43 @@ import handleError from "../Utilities/handleError";
 function IndividualArtwork({artPiece, setArtPiece, loading, setLoading}) {
   const {objectID} = useParams() 
 
-  const saveToExhibition = (artPiece) => {
-    const exhibitions = JSON.parse(localStorage.getItem("exhibitions")) || {};
-    const exhibitionName = prompt("Enter the exhibition name:"); // Ask user for exhibition name
-
-    if (!exhibitionName) return;
-
-    if (!exhibitions[exhibitionName]) {
-      exhibitions[exhibitionName] = [];
-    }
-
-    exhibitions[exhibitionName].push(artPiece);
-    localStorage.setItem("exhibitions", JSON.stringify(exhibitions));
-    alert(`${artPiece.title} saved to "${exhibitionName}"`);
-  };
-
+  
   useEffect(() => {
     setLoading(true)
     const fetchArtPiece = async (objectID) => {
-        const artPiece = metRequests.getObjectByID(objectID);
-        const artPieceData = await Promise.resolve(artPiece);
-
-        setArtPiece(artPieceData);
+      const artPiece = metRequests.getObjectByID(objectID);
+      const artPieceData = await Promise.resolve(artPiece);
+      
+      setArtPiece(artPieceData);
     };
     fetchArtPiece(objectID)
     setLoading(false)
   }, [objectID]);
   console.log(artPiece)
+  
+  const saveToExhibition = (artPiece) => {
+  if (!artPiece) {
+    alert("No artwork data available to save.");
+    return;
+  }
+
+  const exhibitions = JSON.parse(localStorage.getItem("exhibitions")) || {};
+  const exhibitionName = prompt("Enter the exhibition name:"); // Ask user for exhibition name
+
+  if (!exhibitionName) return;
+
+  // Ensure exhibition entry exists with correct museum identifier
+  if (!exhibitions[exhibitionName]) {
+    exhibitions[exhibitionName] = { museum: "met", artworks: [] }; // ✅ Set museum as "met"
+  }
+
+  exhibitions[exhibitionName].artworks.push({ ...artPiece, museum: "met" }); // ✅ Ensure artwork has museum field
+
+  localStorage.setItem("exhibitions", JSON.stringify(exhibitions));
+
+  alert(`${artPiece?.title || "Untitled"} saved to "${exhibitionName}"`);
+};
+
 
 
 if(loading){
