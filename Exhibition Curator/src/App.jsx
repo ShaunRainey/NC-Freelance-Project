@@ -12,6 +12,7 @@ import DetailedSearch from './Components/DetailedSearchBar';
 import SavedExhibitions from './Components/SavedExhibitions';
 import ViewExhibition from './Components/ViewExhibition';
 import VamRandom from './Components/VamRandom';
+import MetRandom from './Components/metRandom';
 
 /* 
 Implement picture zoom
@@ -29,7 +30,10 @@ function App() {
   const [artworkIDs, setArtworkIDs] = useState([]);
 
     const handleMuseumChange = (event) => {
+    setArtworks([])
     setMuseum(event.target.value)
+    console.log(event.target.value)
+    console.log(museum)
     // vamRequests.fetchObjectsWithImages().then((response) => {console.log(response)})
   }
 
@@ -72,6 +76,16 @@ return (
 
         <Route path="/random" element={<VamRandom artworkIDs={artworkIDs} setArtworkIDs={setArtworkIDs} artworks={artworks} setArtworks={setArtworks} loading = {loading} setLoading = {setLoading} museum={museum} setMuseum={setMuseum}/>} />
         
+        <Route path="/modnar" 
+        element={
+          <Row>
+            <Col>
+              {<MetRandom artworkIDs={artworkIDs} setArtworkIDs={setArtworkIDs} artworks={artworks} setArtworks={setArtworks} loading = {loading} setLoading = {setLoading} museum={museum} setMuseum={setMuseum} handleMuseumChange = {handleMuseumChange}/>}
+            </Col>
+          </Row>
+          }
+        />
+
 
       </Routes>
 

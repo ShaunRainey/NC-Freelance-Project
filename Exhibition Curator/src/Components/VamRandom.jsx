@@ -5,23 +5,21 @@ import { Link } from 'react-router'
 import Loading from "./Loading";
 import handleError from "../Utilities/handleError";
 
-function VamRandom({artworkIDs, setArtworkIDs, artworks, setArtworks, loading, setLoading}) {
+function VamRandom({artworks, setArtworks, loading, setLoading, museum}) {
 
     useEffect(() => {
     const getArtworks = async () => {
       setLoading(true)
-      const imagedArtworks = await vamRequests.fetchRandomObjects();
+      
+      const imagedArtworks = await vamRequests.fetchRandomObjects(200);
       setArtworks(imagedArtworks);
       setLoading(false)
     };
     getArtworks();
-  }, []);
+  }, [museum]);
 
  if(loading){
-    return (
-        <Container>
-      <Loading/>
-    </Container>)
+    return (<Loading/>)
   } else{
       
       return (
@@ -29,9 +27,8 @@ function VamRandom({artworkIDs, setArtworkIDs, artworks, setArtworks, loading, s
         <Row>
           {artworks.map((artwork) => (
               
-              <Col md={4} className="mb-4">
+              <Col md={4} className="mb-4" key={artwork["systemNumber"]} >
               {/* <Link to={`/artwork/${artwork.objectID}`}> */}
-              {/* {console.log(artwork["_primaryImageId"])} */}
                 <Card className="custom-card">
                   <Card.Img
                     variant="top"

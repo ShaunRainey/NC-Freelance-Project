@@ -25,7 +25,7 @@ const getValidObjectNumbers = (searchWords) => {
     return metMuseum
       .get(searchString)
       .then((response) => {
-        console.log("Valid object numbers: ",response.data.objectIDs)
+        // console.log("Valid object numbers: ",response.data.objectIDs)
         return response.data.objectIDs;
       })
       .catch(handleError);
@@ -170,9 +170,3 @@ export default {
   getAllImagedArtworks,
   getSearchElements
 };
-
-
-
-	767421, 573446, 193506, 340855, 26627;
-
-  console.log(getValidObjectNumbers())
