@@ -6,8 +6,9 @@ import PageBar from "./PageBar";
 import Loading from "./Loading";
 import handleError from "../Utilities/handleError";
 import vamRequests from "../Utilities/vamMuseum"
+import FilterMuseum from "./FilterMuseum";
 
-function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, itemsPerPage, loading, setLoading, museum, setMuseum}) {
+function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, itemsPerPage, loading, setLoading, museum, setMuseum, handleMuseumChange}) {
     const [searchInitiated, setSearchInitiated] = useState(false)
     const [totalResults, setTotalResults] = useState([]);
     const [departments, setDepartments] = useState([]);
@@ -15,17 +16,11 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
     //Form choices
     const [department, setDepartment] = useState("");
     const [keyword, setKeyword] = useState("");
-    const [maxPages, setMaxPages] = useState("Default (20)");
+    const [maxPages, setMaxPages] = useState(4);
     const [resultsPerPage, setResultsPerPage] = useState(itemsPerPage);
     const [sortBy, setSortBy] = useState("Origin date (old - new)");
 
     let searchString = `/search?departmentId=${department || "*"}&q=${keyword || "*"}`;
-
-    const handleMuseumChange = (event) => {
-      // console.log(event.target.value)
-      setMuseum(event.target.value)
-      vamRequests.fetchObjectsWithImages().then((response) => {console.log(response)})
-    }
 
     //Add keyword to the above searchString
     const handleKeywordChange = (event) => {
@@ -81,6 +76,9 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
     },[])
 
     // console.log(`Commencing search for ${keyword} in department: ${department} with ${resultsPerPage} results per page for ${maxPages} pages`)
+
+    // if(maxPages === "Default (20)"){setMaxPages(4)} //Need to fix error where default value is passed as a string
+
     useEffect(() => {
         const fetchAllArtworks = async () => {
             if (!searchInitiated) return; // Do nothing if the search hasn't been initiated
@@ -90,6 +88,7 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
             // If there is currently nothing saved in results, the call hasn't been run previously
             // If there are results saved, the API call has been made, so it shouldn't be called again
             if (totalResults.length === 0) {
+              console.log(maxPages)
                 const validObjects = await metRequests.getSearchElements(searchString, resultsPerPage, maxPages);
                 
                 if(sortBy === "Origin date (old - new)"){validObjects.sort((a, b) => (a["objectBeginDate"] || 0) - (b["objectBeginDate"] || 0))}
@@ -139,15 +138,8 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
                 <h5>Search Box:</h5>
 
                     <Form>
+                      <FilterMuseum handleMuseumChange = {handleMuseumChange}/>
 
-                        <Form.Group className="mb-3">
-                            <Form.Label>Filter by Museum</Form.Label>
-                            <Form.Control as="select" onChange={handleMuseumChange}>
-                            <option>The Met Museum</option>
-                            <option>Option 2</option>
-                            </Form.Control>
-                        </Form.Group>
-      
                         <Form.Group className="mb-3">
                             <Form.Label>Filter by Department</Form.Label>
                             <Form.Control as="select" onChange={handleDepartmentChange}>
@@ -172,7 +164,7 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
                             <Form.Label>Maximum Pages</Form.Label>
                                 <p className="smallprint">(A higher number will increase API response time. Recommended to stay below 20)</p>
                             <Form.Control as="select" onChange={handleMaximumPages}>
-                                <option>Default (20)</option>
+                                <option>Default (4)</option>
                                 <option>2</option>
                                 <option>5</option>
                                 <option>10</option>
@@ -225,7 +217,7 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
     );
   }
 
-  if (!searchInitiated && museum === "Option 2") { //If the search hasn't been initiated, render the search form
+  if (!searchInitiated && museum === "Victoria and Albert Museum") { //If the search hasn't been initiated, render the search form
     return (
       <Container className="text-center mt-5">   
         <Row>
@@ -235,13 +227,7 @@ function DetailedSearch({ artworks, setArtworks, currentPage, setCurrentPage, it
 
                     <Form>
 
-                        <Form.Group className="mb-3">
-                            <Form.Label>Filter by Museum</Form.Label>
-                            <Form.Control as="select" onChange={handleMuseumChange}>
-                            <option>The Met Museum</option>
-                            <option>Option 2</option>
-                            </Form.Control>
-                        </Form.Group>
+                      <FilterMuseum handleMuseumChange = {handleMuseumChange}/>
 
                         <Button variant="primary" size="lg" onClick={handleSearchInitiate}>
                             Search

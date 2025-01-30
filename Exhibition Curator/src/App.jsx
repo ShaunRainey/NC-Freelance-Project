@@ -11,7 +11,7 @@ import AllArtworks from "./Components/allArtworks";
 import DetailedSearch from './Components/DetailedSearchBar';
 import SavedExhibitions from './Components/SavedExhibitions';
 import ViewExhibition from './Components/ViewExhibition';
-import Random from './Components/random';
+import VamRandom from './Components/VamRandom';
 
 /* 
 Implement picture zoom
@@ -28,6 +28,11 @@ function App() {
   const [museum, setMuseum] = useState("The Met Museum");
   const [artworkIDs, setArtworkIDs] = useState([]);
 
+    const handleMuseumChange = (event) => {
+    setMuseum(event.target.value)
+    // vamRequests.fetchObjectsWithImages().then((response) => {console.log(response)})
+  }
+
 return (
   <Container>
     <NavBar />
@@ -37,7 +42,7 @@ return (
         element={
           <Row>
             <Col>
-              <FeaturedArtworks artworkIDs={artworkIDs} setArtworkIDs={setArtworkIDs} artworks={artworks} setArtworks={setArtworks} loading = {loading} setLoading = {setLoading} museum={museum} setMuseum={setMuseum}/>
+              <FeaturedArtworks artworkIDs={artworkIDs} setArtworkIDs={setArtworkIDs} artworks={artworks} setArtworks={setArtworks} loading = {loading} setLoading = {setLoading} museum={museum} setMuseum={setMuseum} handleMuseumChange = {handleMuseumChange}/>
             </Col>
           </Row>
           }
@@ -49,12 +54,12 @@ return (
         />
 
         <Route path="/all-artworks/" element={
-          <AllArtworks artworks={artworks} setArtworks={setArtworks} loading={loading} setLoading = {setLoading} validObjectIDs= {validObjectIDs} setValidObjectIDs={setValidObjectIDs} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} museum={museum} setMuseum={setMuseum}/>
+          <AllArtworks artworks={artworks} setArtworks={setArtworks} loading={loading} setLoading = {setLoading} validObjectIDs= {validObjectIDs} setValidObjectIDs={setValidObjectIDs} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} museum={museum} setMuseum={setMuseum} handleMuseumChange = {handleMuseumChange}/>
           } 
         />
 
         <Route path="/detailed-search" element={
-          <DetailedSearch artworks={artworks} setArtworks={setArtworks} loading={loading} setLoading = {setLoading} validObjectIDs= {validObjectIDs} setValidObjectIDs={setValidObjectIDs} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} museum={museum} setMuseum={setMuseum}/>
+          <DetailedSearch artworks={artworks} setArtworks={setArtworks} loading={loading} setLoading = {setLoading} validObjectIDs= {validObjectIDs} setValidObjectIDs={setValidObjectIDs} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} museum={museum} setMuseum={setMuseum} handleMuseumChange = {handleMuseumChange}/>
           }
         />
 
@@ -65,7 +70,7 @@ return (
 
         <Route path="/exhibition/:exhibitionName" element={<ViewExhibition />} />
 
-        <Route path="/random" element={<Random artworkIDs={artworkIDs} setArtworkIDs={setArtworkIDs} artworks={artworks} setArtworks={setArtworks} loading = {loading} setLoading = {setLoading} museum={museum} setMuseum={setMuseum}/>} />
+        <Route path="/random" element={<VamRandom artworkIDs={artworkIDs} setArtworkIDs={setArtworkIDs} artworks={artworks} setArtworks={setArtworks} loading = {loading} setLoading = {setLoading} museum={museum} setMuseum={setMuseum}/>} />
         
 
       </Routes>

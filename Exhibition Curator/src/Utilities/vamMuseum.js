@@ -5,10 +5,10 @@ const vamMuseum = axios.create({ baseURL: "https://api.vam.ac.uk/v2/objects/sear
 
 
 const fetchObjectsWithImages = async () => {
-    console.log("Hello")
+    // console.log("Hello")
     try {
         const response = await vamMuseum.get("", {
-            params: {q: "", images_exist:1, page: 1, page_size: 100 }});
+            params: {q: "sculpture", images_exist:1, page: 1, page_size: 100 }});
             let results = response.data.records
             results.forEach(element => {
                 // console.log(element["_primaryImageId"])
@@ -25,9 +25,13 @@ const fetchObjectsWithImages = async () => {
 const fetchRandomObjects = async()=>{
     const newArray = []
     let count = 0
-    while(newArray.length < 100){
+    while(newArray.length < 200){
         const imagedObjects = await fetchObjectsWithImages()
-        imagedObjects.forEach((object) => newArray.push(object))
+        imagedObjects.forEach((object) => {
+            if(object["_primaryTitle"]){
+                newArray.push(object)
+            }
+        })
         count ++
     }
 

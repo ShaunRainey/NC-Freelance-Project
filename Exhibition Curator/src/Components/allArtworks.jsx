@@ -6,7 +6,7 @@ import metRequests from "../Utilities/metMuseumApi";
 import PageBar from "./PageBar";
 import handleError from "../Utilities/handleError";
 
-function AllArtworks({ artworks, setArtworks, validObjectIDs, setValidObjectIDs, currentPage, setCurrentPage, itemsPerPage, loading, setLoading }) {
+function AllArtworks({ artworks, setArtworks, validObjectIDs, setValidObjectIDs, currentPage, setCurrentPage, itemsPerPage, loading, setLoading, museum, setMuseum, handleMuseumChange }) {
 
   const location = useLocation();
   const queryWords = new URLSearchParams(location.search).get("query") || ""; // Get query param

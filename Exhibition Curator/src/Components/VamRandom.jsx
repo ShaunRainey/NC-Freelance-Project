@@ -5,44 +5,43 @@ import { Link } from 'react-router'
 import Loading from "./Loading";
 import handleError from "../Utilities/handleError";
 
-function Random({artworkIDs, setArtworkIDs, artworks, setArtworks, loading, setLoading}) {
+function VamRandom({artworkIDs, setArtworkIDs, artworks, setArtworks, loading, setLoading}) {
 
     useEffect(() => {
-    const getArtworksIDs = async () => {
+    const getArtworks = async () => {
       setLoading(true)
       const imagedArtworks = await vamRequests.fetchRandomObjects();
-      setArtworkIDs(imagedArtworks);
+      setArtworks(imagedArtworks);
+      setLoading(false)
     };
-    getArtworksIDs();
-    setLoading(false)
+    getArtworks();
   }, []);
 
-  console.log(artworkIDs)
  if(loading){
     return (
-    <Container>
+        <Container>
       <Loading/>
     </Container>)
   } else{
-
-    return (
-      <Container>
+      
+      return (
+          <Container>
         <Row>
-          {artworkIDs.map((artwork) => (
-            
-            <Col md={4} className="mb-4">
+          {artworks.map((artwork) => (
+              
+              <Col md={4} className="mb-4">
               {/* <Link to={`/artwork/${artwork.objectID}`}> */}
-              {console.log(artwork["_primaryImageId"])}
+              {/* {console.log(artwork["_primaryImageId"])} */}
                 <Card className="custom-card">
                   <Card.Img
                     variant="top"
                     src={`https://framemark.vam.ac.uk/collections/${artwork["_primaryImageId"]}/full/600,400/0/default.jpg`}
                     alt="Artwork"
                     className="Card-img"
-                  />
+                    />
                   <Card.Body className="custom-card-body">
                     <Card.Title className="mb-2">
-                      {artwork.title || "Untitled"}
+                      {artwork["_primaryTitle"] || "Untitled"}
                     </Card.Title>
                     <Card.Text className="custom-card-text">
                       {artwork["_primaryMaker"]["name"] || "Unknown Artist"}
@@ -55,7 +54,7 @@ function Random({artworkIDs, setArtworkIDs, artworks, setArtworks, loading, setL
         </Row>
       </Container>
     );
-  }
+}
 }
 
-export default Random;
+export default VamRandom;

@@ -27,7 +27,7 @@ function NavBar() {
       <Container>
         <Row>
           <Col md={2}>
-            <Link to="/">Home</Link>
+            <Link to="/" onClick={()=> {window.reload()}}>Home</Link>
           </Col>
 
           <Col md={2}>

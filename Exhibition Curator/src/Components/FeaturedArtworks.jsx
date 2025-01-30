@@ -1,12 +1,13 @@
 import metRequests from "../Utilities/metMuseumApi";
 import { useState, useEffect } from "react";
-import { Card, Container, Row, Col } from "react-bootstrap";
+import { Card, Container, Row, Col, Form } from "react-bootstrap";
 import { Link } from 'react-router'
 import Loading from "./Loading";
 import handleError from "../Utilities/handleError";
+import FilterMuseum from "./FilterMuseum";
+import VamRandom from "./VamRandom";
 
-function FeaturedArtworks({artworkIDs, setArtworkIDs, artworks, setArtworks, loading, setLoading}) {
-
+function FeaturedArtworks({artworkIDs, setArtworkIDs, artworks, setArtworks, loading, setLoading,museum, setMuseum, handleMuseumChange}) {
 
   useEffect(() => {
     const getArtworksIDs = async () => {
@@ -15,6 +16,7 @@ function FeaturedArtworks({artworkIDs, setArtworkIDs, artworks, setArtworks, loa
       setArtworkIDs(imagedArtworks);
     };
     getArtworksIDs();
+    setLoading(false)
   }, []);
 
   useEffect(() => {
@@ -28,7 +30,6 @@ function FeaturedArtworks({artworkIDs, setArtworkIDs, artworks, setArtworks, loa
         setArtworks(artworkData);
       };
       fetchArtworks();
-      setLoading(false)
     }
   }, [artworkIDs]);
 
@@ -38,10 +39,15 @@ function FeaturedArtworks({artworkIDs, setArtworkIDs, artworks, setArtworks, loa
     <Container>
       <Loading/>
     </Container>)
-  } else{
+  } else if (museum === "The Met Museum"){
 
     return (
       <Container>
+        <Row>
+          <Form>
+            <FilterMuseum handleMuseumChange = {handleMuseumChange}/>
+          </Form>
+        </Row>
         <Row>
           {artworks.map((artwork) => (
             <Col md={4} key={artwork["objectID"]} className="mb-4">
@@ -68,6 +74,18 @@ function FeaturedArtworks({artworkIDs, setArtworkIDs, artworks, setArtworks, loa
         </Row>
       </Container>
     );
+  } else {
+    return (
+         <Container>
+          <Row>
+            <Form>
+             <FilterMuseum handleMuseumChange = {handleMuseumChange}/>
+            </Form>
+          </Row>
+        </Container>
+       
+      // <VamRandom artworkIDs={artworkIDs} setArtworkIDs={setArtworkIDs} artworks={artworks} setArtworks={setArtworks} loading = {loading} setLoading = {setLoading} museum={museum} setMuseum={setMuseum}/>
+    )
   }
 }
 
