@@ -41,15 +41,17 @@ const getTotalObjectNumbers = () => {
 };
 
 const getObjectByID = (objectID) => {
-  return metMuseum.get(`/objects/${objectID}`)
-    .then((response) => {
-      if (response.data && response.data.objectID) {
-        return response.data; // Ensure that objectID exists in the response
-      } else {
-        throw new Error(`Object with ID ${objectID} not found`);
-      }
-    })
-    .catch(handleError);
+  try{
+    return metMuseum.get(`/objects/${objectID}`)
+      .then((response) => {
+        if (response.data && response.data.objectID) {
+          return response.data;
+        } 
+      })
+
+  } catch(error){
+    handleError(error)
+  };
 };
 
 

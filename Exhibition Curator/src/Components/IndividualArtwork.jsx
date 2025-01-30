@@ -6,7 +6,6 @@ import Loading from "./Loading";
 import handleError from "../Utilities/handleError";
 
 function IndividualArtwork({artPiece, setArtPiece, loading, setLoading}) {
-  console.log(artPiece)
   const {objectID} = useParams() 
 
   const saveToExhibition = (artPiece) => {

@@ -1,42 +1,36 @@
 import metRequests from "../Utilities/metMuseumApi";
 import { useState, useEffect } from "react";
-import { Card, Container, Row, Col, Form } from "react-bootstrap";
+import { Card, Container, Row, Col } from "react-bootstrap";
 import { Link } from 'react-router'
 import Loading from "./Loading";
-import FilterMuseum from "./FilterMuseum";
+import handleError from "../Utilities/handleError";
 
 function MetRandom({artworkIDs, setArtworkIDs, artworks, setArtworks, loading, setLoading, museum, setMuseum, handleMuseumChange}) {
 
-  // Fetch artwork IDs and artwork data in one useEffect
   useEffect(() => {
     const getArtworksIDs = async () => {
-      setLoading(true);  // Set loading state to true before fetching
-      
+      setLoading(true);  
 
       try {
         const imagedArtworks = await metRequests.getRandomImagedArtworks();
-        console.log(imagedArtworks);
 
         const artworkPromises = imagedArtworks.map((ID) => {
           return metRequests.getObjectByID(ID);
         });
         const artworkData = await Promise.all(artworkPromises);
 
-        setArtworks(artworkData);  // Update state with fetched artworks
+        setArtworks(artworkData);
       } catch (error) {
-        console.error("Error fetching artwork data:", error);
-        // Optionally, handle error and set loading to false
-        setLoading(false);
+          handleError(error)
+          setLoading(false);
       }
-
-      setLoading(false);  // Set loading state to false after fetch is complete
+      setLoading(false); 
     };
-
     getArtworksIDs();
-  }, [museum]);  // Only runs once when the component is mounted
+  }, [museum]);  // Runs the API call again if the museum filter is switched
 
   if (loading) {
-    return <Loading />;  // Display loading component while data is being fetched
+    return <Loading />
   }
 
   return (
@@ -45,7 +39,7 @@ function MetRandom({artworkIDs, setArtworkIDs, artworks, setArtworks, loading, s
       <Row>
         {artworks.map((artwork) => (
           <Col md={4} key={artwork["objectID"]} className="mb-4">
-            <Link to={`/artwork/${artwork.objectID}`}>
+            <Link to={`/met-artwork/${artwork.objectID}`}>
               <Card className="custom-card">
                 <Card.Img
                   variant="top"

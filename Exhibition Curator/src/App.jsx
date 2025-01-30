@@ -13,6 +13,7 @@ import SavedExhibitions from './Components/SavedExhibitions';
 import ViewExhibition from './Components/ViewExhibition';
 import VamRandom from './Components/VamRandom';
 import MetRandom from './Components/metRandom';
+import VamIndividualArtwork from './Components/VamIndividualArtwork';
 
 /* 
 Implement picture zoom
@@ -32,9 +33,6 @@ function App() {
     const handleMuseumChange = (event) => {
     setArtworks([])
     setMuseum(event.target.value)
-    console.log(event.target.value)
-    console.log(museum)
-    // vamRequests.fetchObjectsWithImages().then((response) => {console.log(response)})
   }
 
 return (
@@ -46,14 +44,19 @@ return (
         element={
           <Row>
             <Col>
-              <FeaturedArtworks artworkIDs={artworkIDs} setArtworkIDs={setArtworkIDs} artworks={artworks} setArtworks={setArtworks} loading = {loading} setLoading = {setLoading} museum={museum} setMuseum={setMuseum} handleMuseumChange = {handleMuseumChange}/>
+              <FeaturedArtworks artPiece={artPiece} setArtPiece={setArtPiece} artworkIDs={artworkIDs} setArtworkIDs={setArtworkIDs} artworks={artworks} setArtworks={setArtworks} loading = {loading} setLoading = {setLoading} museum={museum} setMuseum={setMuseum} handleMuseumChange = {handleMuseumChange}/>
             </Col>
           </Row>
           }
         />
 
-        <Route path="/artwork/:objectID" element={
+        <Route path="/met-artwork/:objectID" element={
           <IndividualArtwork artPiece={artPiece} setArtPiece={setArtPiece} loading = {loading} setLoading = {setLoading}/>
+          }
+        />
+
+        <Route path="/vam-artwork/:objectID" element={
+          <VamIndividualArtwork artPiece={artPiece} setArtPiece={setArtPiece} loading = {loading} setLoading = {setLoading}/>
           }
         />
 
@@ -71,7 +74,7 @@ return (
             <SavedExhibitions/>
           }
         />
-
+{/* 
         <Route path="/exhibition/:exhibitionName" element={<ViewExhibition />} />
 
         <Route path="/random" element={<VamRandom artworkIDs={artworkIDs} setArtworkIDs={setArtworkIDs} artworks={artworks} setArtworks={setArtworks} loading = {loading} setLoading = {setLoading} museum={museum} setMuseum={setMuseum}/>} />
@@ -84,7 +87,7 @@ return (
             </Col>
           </Row>
           }
-        />
+        /> */}
 
 
       </Routes>

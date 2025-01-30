@@ -5,18 +5,25 @@ import { Link } from 'react-router'
 import Loading from "./Loading";
 import handleError from "../Utilities/handleError";
 
-function VamRandom({artworks, setArtworks, loading, setLoading, museum}) {
+function VamRandom({artPiece, setArtPiece, artworks, setArtworks, loading, setLoading, museum}) {
 
     useEffect(() => {
     const getArtworks = async () => {
       setLoading(true)
-      
-      const imagedArtworks = await vamRequests.fetchRandomObjects(200);
-      setArtworks(imagedArtworks);
+
+      try { 
+        const imagedArtworks = await vamRequests.fetchRandomObjects(1000); //The number entered here will just increase randomness. Min 100.
+        setArtworks(imagedArtworks);
+        // console.log(imagedArtworks[0]["_primaryImageId"])
+      }
+      catch (error) {
+        handleError(error)
+        setLoading(false)
+      }
       setLoading(false)
     };
     getArtworks();
-  }, [museum]);
+  }, [museum]) // Runs the API call again if the museum filter is switched
 
  if(loading){
     return (<Loading/>)
@@ -28,13 +35,14 @@ function VamRandom({artworks, setArtworks, loading, setLoading, museum}) {
           {artworks.map((artwork) => (
               
               <Col md={4} className="mb-4" key={artwork["systemNumber"]} >
-              {/* <Link to={`/artwork/${artwork.objectID}`}> */}
+              <Link to={`/vam-artwork/${artwork["systemNumber"]}`}>
                 <Card className="custom-card">
                   <Card.Img
                     variant="top"
                     src={`https://framemark.vam.ac.uk/collections/${artwork["_primaryImageId"]}/full/600,400/0/default.jpg`}
                     alt="Artwork"
                     className="Card-img"
+                    onClick={()=>{setArtPiece(artwork)}}
                     />
                   <Card.Body className="custom-card-body">
                     <Card.Title className="mb-2">
@@ -45,7 +53,7 @@ function VamRandom({artworks, setArtworks, loading, setLoading, museum}) {
                     </Card.Text>
                   </Card.Body>
                 </Card>
-              {/* </Link> */}
+              </Link>
             </Col>
           ))}
         </Row>

@@ -28,7 +28,10 @@ const fetchObjectsWithImages = async (numOfResults) => { //This will filter obje
     }
 };
 
-
+const fetchIndividualObject = async (ID)=> {
+    const object = await axios.get(`https://api.vam.ac.uk/v2/museumobject/${ID}`)
+    return object.data.record
+}
 
 const fetchRandomObjects = async (num = 200) => {
     const imagedObjects = await fetchObjectsWithImages(num);
@@ -47,5 +50,5 @@ const fetchRandomObjects = async (num = 200) => {
 };
 
 
-export default {fetchObjectsWithImages, fetchRandomObjects}
+export default {fetchObjectsWithImages, fetchRandomObjects, fetchIndividualObject}
 
