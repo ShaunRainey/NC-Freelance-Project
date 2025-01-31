@@ -4,14 +4,26 @@ import handleError from "./handleError.js";
 const vamMuseum = axios.create({ baseURL: "https://api.vam.ac.uk/v2/objects/search" })
 
 
-const fetchObjectsWithImages = async (numOfResults) => { //This will filter objects received from the API so that we get good options
-    
+const fetchObjectsWithImages = async (numOfResults, query) => { //This will filter objects received from the API so that we get good options
+    let queryString = "sculpture"
+
     try {
+        
+        if(query){queryString = query.split(" ").join("&")}
+
         const outputObjects = []
         let pageIndex = 1;
+
+        const params = {
+            q: queryString,
+            images_exist: 1,
+            page: pageIndex,
+            page_size: 100
+        };
+
         while(outputObjects.length<numOfResults){
 
-            const response = await vamMuseum.get("", {params: {q: "sculpture", images_exist:1, page: pageIndex, page_size: 100 }});
+            const response = await vamMuseum.get("", {params});
             let results = response.data.records
             results.forEach((object) => {
                 if(object["_primaryTitle"] && object["_primaryMaker"]["name"] !== "Unknown" ){ //Checks that the object has a title and an artist

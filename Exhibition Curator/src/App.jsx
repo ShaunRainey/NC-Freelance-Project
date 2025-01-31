@@ -27,6 +27,7 @@ function App() {
   const [itemsPerPage, setItemsPerPage] = useState(9);
   const [museum, setMuseum] = useState("The Met Museum");
   const [artworkIDs, setArtworkIDs] = useState([]);
+  const [searchInitiated, setSearchInitiated] = useState(false)
 
     const handleMuseumChange = (event) => {
     setArtworks([])
@@ -62,7 +63,7 @@ return (
         />
 
         <Route path="/detailed-search" element={
-          <DetailedSearch artworks={artworks} setArtworks={setArtworks} loading={loading} setLoading = {setLoading} validObjectIDs= {validObjectIDs} setValidObjectIDs={setValidObjectIDs} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} museum={museum} setMuseum={setMuseum} handleMuseumChange = {handleMuseumChange}/>
+          <DetailedSearch artworks={artworks} setArtworks={setArtworks} loading={loading} setLoading = {setLoading} validObjectIDs= {validObjectIDs} setValidObjectIDs={setValidObjectIDs} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} museum={museum} setMuseum={setMuseum} handleMuseumChange = {handleMuseumChange} searchInitiated={searchInitiated} setSearchInitiated={setSearchInitiated}/>
           }
         />
 
