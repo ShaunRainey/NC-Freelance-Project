@@ -18,7 +18,7 @@ function DetailedSearch({artworks, setArtworks, currentPage, setCurrentPage,item
   const [keyword, setKeyword] = useState("");
   const [maxPages, setMaxPages] = useState(4);
   const [resultsPerPage, setResultsPerPage] = useState(itemsPerPage);
-  const [sortBy, setSortBy] = useState("Origin date (old - new)");
+  const [sortBy, setSortBy] = useState("No Sort");
 
   let searchString = `/search?departmentId=${department || "*"}&q=${keyword || "*"}`;
 
@@ -139,28 +139,64 @@ function DetailedSearch({artworks, setArtworks, currentPage, setCurrentPage,item
   }, [currentPage, totalResults, searchInitiated, museum]);
 
   useEffect(() => {
-    if (museum === "Victoria and Albert Museum") {
-      const fetchVamArtworks = async () => {
-        setLoading(true)
-        setArtworks([])
-        console.log(keyword)
-        if (!searchInitiated) { return; }
+  // This will trigger when the museum, search, page, results per page, etc., change
+  if (museum === "Victoria and Albert Museum") {
+    console.log("🚀 useEffect triggered for VAM museum");
 
-        if (totalResults.length === 0) {
-          const validObjects = await vamRequests.fetchObjectsWithImages(1000, keyword)
-          setTotalResults(validObjects);
-          console.log(validObjects)
-          setArtworks(validObjects.slice(0, itemsPerPage));
-        } else {
-          const startIndex = (currentPage - 1) * itemsPerPage;
-          const endIndex = startIndex + itemsPerPage;
-          setArtworks(totalResults.slice(startIndex, endIndex));
-        }
-        setLoading(false)
+    // Calling fetchVamArtworks inside the effect
+    const fetchVamArtworks = async () => {
+      console.log("🔍 fetchVamArtworks() called");
+
+      setLoading(true);
+      setArtworks([]); // Clear previous results
+
+      if (!searchInitiated) {
+        console.log("⏳ Skipping fetch - search not initiated");
+        return;
       }
-      fetchVamArtworks()
-    }
-  }, [currentPage, totalResults, searchInitiated, museum])
+
+      // Fetch data only if no results are saved or if resultsPerPage has changed
+      if (totalResults.length === 0 || resultsPerPage !== itemsPerPage) {
+        console.log("🛠 Fetching new objects from VAM API...");
+
+        // Fetch objects from the VAM API
+        const validObjects = await vamRequests.fetchObjectsWithImages(1000, keyword, sortBy);
+        
+        console.log("📦 API Response:", validObjects.length, "objects");
+
+        const actualResults = validObjects.slice(0, maxPages * resultsPerPage);
+        setTotalResults(actualResults); // Set the total results
+        console.log("✅ totalResults updated:", actualResults.length);
+      }
+
+      // Slice the results for pagination
+      const startIndex = (currentPage - 1) * resultsPerPage;
+      let endIndex = startIndex + resultsPerPage;
+
+      // Fix the case where endIndex is out of bounds
+      if (endIndex > totalResults.length) {
+        endIndex = totalResults.length;
+      }
+
+      const paginatedResults = totalResults.slice(startIndex, endIndex);
+      console.log("🎨 Rendering:", paginatedResults.length, "artworks");
+
+      if (paginatedResults.length === 0 && currentPage > 1) {
+        console.log("⚠️ No artworks found, resetting to page 1");
+        setCurrentPage(1); // If no artworks found, reset to page 1
+      } else {
+        setArtworks(paginatedResults); // Display artworks for current page
+      }
+
+      setLoading(false);
+    };
+
+    // Trigger the API call
+    fetchVamArtworks();
+  }
+}, [currentPage, totalResults, searchInitiated, museum, maxPages, resultsPerPage]);
+
+
 
   const totalItems = totalResults.length;
   const totalPages = Math.ceil(totalItems / resultsPerPage);
@@ -235,6 +271,7 @@ function DetailedSearch({artworks, setArtworks, currentPage, setCurrentPage,item
                 <Form.Group className="mb-3">
                   <Form.Label>Sort By</Form.Label>
                   <Form.Control as="select" onChange={handleSortBy}>
+                    <option>No Sort</option>
                     <option>Origin date (old - new)</option>
                     <option>Origin date (new - old)</option>
                     <option>Title (A-Z)</option>
@@ -280,6 +317,47 @@ function DetailedSearch({artworks, setArtworks, currentPage, setCurrentPage,item
                     placeholder="Please enter a single keyword"
                     onChange={handleKeywordChange}
                   />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Maximum Pages</Form.Label>
+                  <p className="smallprint">(A higher number will increase API response time. Recommended to stay below 20)</p>
+                  <Form.Control as="select" onChange={handleMaximumPages}>
+                    <option>Default (4)</option>
+                    <option>2</option>
+                    <option>5</option>
+                    <option>10</option>
+                    <option>15</option>
+                    <option>20</option>
+                  </Form.Control>
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Results Per Page</Form.Label>
+                  <p className="smallprint">(A higher number will increase API response time. Recommended to stay below 20)</p>
+                  <Form.Control as="select" onChange={handleResultsPerPageChange}>
+                    <option>Default (9)</option>
+                    <option>3</option>
+                    <option>6</option>
+                    <option>9</option>
+                    <option>12</option>
+                    <option>15</option>
+                    <option>30</option>
+                    <option>60</option>
+                  </Form.Control>
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Sort By</Form.Label>
+                  <Form.Control as="select" onChange={handleSortBy}>
+                    <option>No Sort</option>
+                    <option>Origin date (old - new)</option>
+                    <option>Origin date (new - old)</option>
+                    <option>Place of Origin (A-Z)</option>
+                    <option>Place of Origin (Z-A)</option>
+                    <option>Artist (A-Z)</option>
+                    <option>Artist (Z-A)</option>
+                  </Form.Control>
                 </Form.Group>
 
                 <Button variant="primary" size="lg" onClick={handleSearchInitiate}>

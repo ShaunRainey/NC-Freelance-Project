@@ -6,15 +6,16 @@ import Loading from "./Loading";
 import handleError from "../Utilities/handleError";
 
 function VamRandom({artPiece, setArtPiece, artworks, setArtworks, loading, setLoading, museum}) {
-
-    useEffect(() => {
+  
+  useEffect(() => {
     const getArtworks = async () => {
+      
       setLoading(true)
 
       try { 
         const imagedArtworks = await vamRequests.fetchRandomObjects(1000); //The number entered here will just increase randomness. Min 100.
         setArtworks(imagedArtworks);
-        // console.log(imagedArtworks[0]["_primaryImageId"])
+        console.log(imagedArtworks)
       }
       catch (error) {
         handleError(error)
@@ -24,6 +25,7 @@ function VamRandom({artPiece, setArtPiece, artworks, setArtworks, loading, setLo
     };
     getArtworks();
   }, [museum]) // Runs the API call again if the museum filter is switched
+  
 
  if(loading){
     return (<Loading/>)
