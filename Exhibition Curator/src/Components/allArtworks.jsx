@@ -6,6 +6,7 @@ import metRequests from "../Utilities/metMuseumApi";
 import vamRequests from "../Utilities/vamMuseum";
 import PageBar from "./PageBar";
 import FilterMuseum from "./FilterMuseum";
+import handleError from "../Utilities/handleError";
 
 function AllArtworks({
   artworks, setArtworks, validObjectIDs, setValidObjectIDs, currentPage, setCurrentPage, itemsPerPage, 
@@ -25,6 +26,7 @@ function AllArtworks({
     const fetchArtworks = async () => {
       setLoading(true);
       setArtworks([]); // Reset artworks
+      try{
 
       if (museum === "The Met Museum") {
         // Get all valid object IDs for the search query
@@ -50,6 +52,9 @@ function AllArtworks({
         setArtworks(paginatedArtworks);
         setLoading(false);
       }
+    } catch (error) {
+      handleError(error)
+    }
     };
 
     fetchArtworks();

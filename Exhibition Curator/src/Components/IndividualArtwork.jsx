@@ -12,10 +12,14 @@ function IndividualArtwork({artPiece, setArtPiece, loading, setLoading}) {
   useEffect(() => {
     setLoading(true)
     const fetchArtPiece = async (objectID) => {
+      try {
       const artPiece = metRequests.getObjectByID(objectID);
       const artPieceData = await Promise.resolve(artPiece);
       
       setArtPiece(artPieceData);
+      } catch (error) {
+        handleError(error)
+      }
     };
     fetchArtPiece(objectID)
     setLoading(false)

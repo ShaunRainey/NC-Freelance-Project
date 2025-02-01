@@ -67,31 +67,38 @@ const fetchObjectsWithImages = async (numOfResults, query, sortBy) => {
 
 
 const fetchIndividualObject = async (ID)=> {
-    const object = await axios.get(`https://api.vam.ac.uk/v2/museumobject/${ID}`)
-    return object.data.record
+    try{
+        const object = await axios.get(`https://api.vam.ac.uk/v2/museumobject/${ID}`)
+        return object.data.record
+    } catch (error) {
+        handleError(error)
+    }
 }
 
 const fetchRandomObjects = async (num = 200) => {
     
-
-    const imagedObjects = await fetchObjectsWithImages(num);
-    //If imagedObjects is undefined or null, calling .length on it would cause an error.
-    if (!imagedObjects || imagedObjects.length === 0) { 
-        return [];
-    }
-
-    // Fisher-Yates Shuffle
-    const shuffleArray = (arr) => {
-        for (let i = arr.length - 1; i > 0; i--) { //Starts from the back of the array and counts down to index 0
-            const j = Math.floor(Math.random() * (i + 1)); //Generates a random index j
-            [arr[i], arr[j]] = [arr[j], arr[i]]; // Swap elements
+    try {
+        const imagedObjects = await fetchObjectsWithImages(num);
+        //If imagedObjects is undefined or null, calling .length on it would cause an error.
+        if (!imagedObjects || imagedObjects.length === 0) { 
+            return [];
         }
-        return arr;
-    };
-
-    const shuffledObjects = shuffleArray(imagedObjects);
-
-    return shuffledObjects.slice(0, 9);
+    
+        // Fisher-Yates Shuffle
+        const shuffleArray = (arr) => {
+            for (let i = arr.length - 1; i > 0; i--) { //Starts from the back of the array and counts down to index 0
+                const j = Math.floor(Math.random() * (i + 1)); //Generates a random index j
+                [arr[i], arr[j]] = [arr[j], arr[i]]; // Swap elements
+            }
+            return arr;
+        };
+    
+        const shuffledObjects = shuffleArray(imagedObjects);
+    
+        return shuffledObjects.slice(0, 9);
+    } catch (error){
+        handleError(error)
+    }
 };
 
 

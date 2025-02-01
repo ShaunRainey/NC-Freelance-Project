@@ -40,19 +40,27 @@ const getTotalObjectNumbers = () => {
         .catch(handleError);
 };
 
-const getObjectByID = (objectID) => {
-  try{
-    return metMuseum.get(`/objects/${objectID}`)
-      .then((response) => {
-        if (response.data && response.data.objectID) {
-          return response.data;
-        } 
-      })
+const getObjectByID = async (objectID) => {
+  try {
+    // Await the promise returned by the API call
+    const response = await metMuseum.get(`/objects/${objectID}`);
+    
+    // Check if data and objectID exist in the response
+    if (response.data && response.data.objectID) {
+      return response.data;
+    }
 
-  } catch(error){
-    handleError(error)
-  };
+    // If objectID doesn't exist in response data, return null or handle it as needed
+    return null;
+
+  } catch (error) {
+    // Catch any errors that occur during the async request
+    console.error(`Error fetching object with ID ${objectID}:`, error);
+    handleError(error);  // You can call your custom error handler here if needed
+    return null;  // Return null or handle error as needed
+  }
 };
+
 
 
 const getDepartments = () => {
