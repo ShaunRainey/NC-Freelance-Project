@@ -391,7 +391,7 @@ function DetailedSearch({artworks, setArtworks, currentPage, setCurrentPage,item
       <Row>
         {artworks.map((artwork) => (
           <Col md={4} key={museum === "The Met Museum" ? artwork.objectID : artwork.systemNumber} className="mb-4">
-            <Link to={museum === "The Met Museum" ? `/met-artwork/${artwork.objectID}` : `/vam-artwork/${artwork.systemNumber}`}>
+            <Link to={museum === "The Met Museum" ? `/NC-Freelance-Project/Exhibition-Curator/met-artwork/${artwork.objectID}` : `/NC-Freelance-Project/Exhibition-Curator/vam-artwork/${artwork.systemNumber}`}>
               <Card className="custom-card">
                 <Card.Img
                   variant="top"

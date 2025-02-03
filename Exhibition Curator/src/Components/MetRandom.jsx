@@ -39,7 +39,7 @@ function MetRandom({artworkIDs, setArtworkIDs, artworks, setArtworks, loading, s
       <Row>
         {artworks.map((artwork) => (
           <Col md={4} key={artwork["objectID"]} className="mb-4">
-            <Link to={`/met-artwork/${artwork.objectID}`}>
+            <Link to={`/NC-Freelance-Project/Exhibition-Curator/met-artwork/${artwork.objectID}`}>
               <Card className="custom-card">
                 <Card.Img
                   variant="top"

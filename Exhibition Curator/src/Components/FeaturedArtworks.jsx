@@ -2,7 +2,7 @@ import { Card, Container, Row, Col, Form } from "react-bootstrap";
 import handleError from "../Utilities/handleError";
 import FilterMuseum from "./FilterMuseum";
 import VamRandom from "./VamRandom";
-import MetRandom from "./metRandom";
+import MetRandom from "./MetRandom";
 
 function FeaturedArtworks({artPiece, setArtPiece, artworkIDs, setArtworkIDs, artworks, setArtworks, loading, setLoading,museum, setMuseum, handleMuseumChange}) {
 

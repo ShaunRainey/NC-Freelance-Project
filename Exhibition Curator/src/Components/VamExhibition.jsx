@@ -30,7 +30,7 @@ function VamExhibition({ exhibitionName, artworks }) {
                 <Card.Text>{artPiece?.briefDescription || "No description available"}</Card.Text>
                 <Button
                   variant="primary"
-                  onClick={() => navigate(`/vam-artwork/${artPiece.systemNumber}`)}
+                  onClick={() => navigate(`/NC-Freelance-Project/Exhibition-Curator/vam-artwork/${artPiece.systemNumber}`)}
                 >
                   View Artwork
                 </Button>

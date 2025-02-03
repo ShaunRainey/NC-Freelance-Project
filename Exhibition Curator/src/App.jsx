@@ -7,7 +7,7 @@ import { useState } from 'react'
 import FeaturedArtworks from "./Components/FeaturedArtworks"
 import IndividualArtwork from "./Components/IndividualArtwork";
 import NavBar from './Components/NavBar'
-import AllArtworks from "./Components/allArtworks";
+import AllArtworks from "./Components/AllArtworks";
 import DetailedSearch from './Components/DetailedSearchBar';
 import SavedExhibitions from './Components/SavedExhibitions';
 import ViewExhibition from './Components/ViewExhibition';
@@ -39,7 +39,7 @@ return (
     <NavBar />
       <Routes>
 
-        <Route path="/" 
+        <Route path="/NC-Freelance-Project/Exhibition-Curator/" 
         element={
           <Row>
             <Col>
@@ -49,27 +49,27 @@ return (
           }
         />
 
-        <Route path="/met-artwork/:objectID" element={
+        <Route path="/NC-Freelance-Project/Exhibition-Curator/met-artwork/:objectID" element={
           <IndividualArtwork museum = {museum} artPiece={artPiece} setArtPiece={setArtPiece} loading={loading} setLoading={setLoading} />
         } />
 
-        <Route path="/vam-artwork/:objectID" element={
+        <Route path="/NC-Freelance-Project/Exhibition-Curator/vam-artwork/:objectID" element={
           <VamIndividualArtwork museum = {museum} artPiece={artPiece} setArtPiece={setArtPiece} loading={loading} setLoading={setLoading} />
         } />
 
-        <Route path="/all-artworks/" element={
+        <Route path="/NC-Freelance-Project/Exhibition-Curator/all-artworks/" element={
           <AllArtworks artworks={artworks} setArtworks={setArtworks} loading={loading} setLoading = {setLoading} validObjectIDs= {validObjectIDs} setValidObjectIDs={setValidObjectIDs} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} museum={museum} setMuseum={setMuseum} handleMuseumChange = {handleMuseumChange}/>
           } 
         />
 
-        <Route path="/detailed-search" element={
+        <Route path="/NC-Freelance-Project/Exhibition-Curator/detailed-search" element={
           <DetailedSearch artworks={artworks} setArtworks={setArtworks} loading={loading} setLoading = {setLoading} validObjectIDs= {validObjectIDs} setValidObjectIDs={setValidObjectIDs} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} museum={museum} setMuseum={setMuseum} handleMuseumChange = {handleMuseumChange} searchInitiated={searchInitiated} setSearchInitiated={setSearchInitiated}/>
           }
         />
 
-        <Route path="/saved-exhibitions" element={<SavedExhibitions />} />
+        <Route path="/NC-Freelance-Project/Exhibition-Curator/saved-exhibitions" element={<SavedExhibitions />} />
 
-        <Route path="/exhibition/:exhibitionName" element={<ViewExhibition />} />
+        <Route path="/NC-Freelance-Project/Exhibition-Curator/exhibition/:exhibitionName" element={<ViewExhibition />} />
 
       </Routes>
 

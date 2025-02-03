@@ -37,7 +37,7 @@ function VamRandom({artPiece, setArtPiece, artworks, setArtworks, loading, setLo
           {artworks.map((artwork) => (
               
               <Col md={4} className="mb-4" key={artwork["systemNumber"]} >
-              <Link to={`/vam-artwork/${artwork["systemNumber"]}`}>
+              <Link to={`/NC-Freelance-Project/Exhibition-Curator/vam-artwork/${artwork["systemNumber"]}`}>
                 <Card className="custom-card">
                   <Card.Img
                     variant="top"
