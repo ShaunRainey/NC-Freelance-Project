@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router";
 import { Row, Col, Container } from 'react-bootstrap'
 import { useState } from 'react'
 
-import FeaturedArtworks from "./Components/featuredArtworks";
+import FeaturedArtworks from "./Components/FeaturedArtworks"
 import IndividualArtwork from "./Components/IndividualArtwork";
 import NavBar from './Components/NavBar'
 import AllArtworks from "./Components/allArtworks";
