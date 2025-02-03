@@ -1,7 +1,10 @@
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
+  plugins: [react()],
   build: {
-    outDir: 'build' // Customize this if needed, e.g., 'dist' or any other folder
-  }
+    outDir: 'build',  // This creates the 'build' folder at the root level
+  },
 });
+

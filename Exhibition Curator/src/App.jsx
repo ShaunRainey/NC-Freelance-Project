@@ -8,7 +8,7 @@ import { useState } from 'react'
 import FeaturedArtworks from "./Components/FeaturedArtworks"
 import IndividualArtwork from "./Components/IndividualArtwork";
 import NavBar from './Components/NavBar'
-import AllArtworks from "Components/AllArtworks";
+import AllArtworks from "./Components/AllArtworks";
 import DetailedSearch from './Components/DetailedSearchBar';
 import SavedExhibitions from './Components/SavedExhibitions';
 import ViewExhibition from './Components/ViewExhibition';

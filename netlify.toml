@@ -1,4 +1,4 @@
 [build]
- base = "/opt/build/repo/Exhibition Curator"
+  base = "Exhibition Curator"  
   command = "npm install && npm run build"
-  publish = "Exhibition Curator/src/build"
+  publish = "build" 
