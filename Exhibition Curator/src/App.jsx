@@ -5,14 +5,14 @@ import { Routes, Route } from "react-router";
 import { Row, Col, Container } from 'react-bootstrap'
 import { useState } from 'react'
 
-import FeaturedArtworks from "./Components/FeaturedArtworks"
-import IndividualArtwork from "./Components/IndividualArtwork";
-import NavBar from './Components/NavBar'
+import FeaturedArtworks from "./Components/FeaturedArtworks.jsx"
+import IndividualArtwork from "./Components/IndividualArtwork.jsx";
+import NavBar from './Components/NavBar.jsx'
 import AllArtworks from "./Components/AllArtworks.jsx";
-import DetailedSearch from './Components/DetailedSearchBar';
-import SavedExhibitions from './Components/SavedExhibitions';
-import ViewExhibition from './Components/ViewExhibition';
-import VamIndividualArtwork from './Components/VamIndividualArtwork';
+import DetailedSearch from './Components/DetailedSearchBar.jsx';
+import SavedExhibitions from './Components/SavedExhibitions.jsx';
+import ViewExhibition from './Components/ViewExhibition.jsx';
+import VamIndividualArtwork from './Components/VamIndividualArtwork.jsx';
 
 /* 
 Implement picture zoom
