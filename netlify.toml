@@ -1,4 +1,4 @@
 [build]
-  base = "Exhibition-Curator"
-  publish = "Exhibition-Curator/dist"  # Adjust this based on where the final build files are output
-  command = "npm run build"  # or any other build command you use
+  base = "Exhibition Curator"
+  command = "npm run build"  # The command to build your project with Vite
+  publish = "Exhibition Curator/build"  # The output folder from Vite's build process
