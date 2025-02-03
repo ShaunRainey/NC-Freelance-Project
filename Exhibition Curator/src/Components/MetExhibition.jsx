@@ -30,7 +30,7 @@ function MetExhibition({ exhibitionName, artworks }) {
                 <Card.Text>{artPiece?.artistDisplayName || "Unknown Artist"}</Card.Text>
                 <Button
                   variant="primary"
-                  onClick={() => navigate(`/NC-Freelance-Project/Exhibition-Curator/met-artwork/${artPiece.objectID}`)}
+                  onClick={() => navigate(`/met-artwork/${artPiece.objectID}`)}
                 >
                   View Artwork
                 </Button>

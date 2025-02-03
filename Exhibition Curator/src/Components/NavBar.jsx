@@ -9,7 +9,7 @@ function NavBar() {
 
   const handleSearch = (searchTerm) => {
     // Update the URL with the new search query
-    navigate(`/NC-Freelance-Project/Exhibition-Curator/all-artworks?query=${encodeURIComponent(searchTerm)}`);
+    navigate(`/all-artworks?query=${encodeURIComponent(searchTerm)}`);
 
     // Could not get the state to behave as intended, would keep pictures the same unless manually refreshed. This window reload fixes that.
     window.location.reload();
@@ -17,7 +17,7 @@ function NavBar() {
 
   const handleAllArtworksClick = () => {
     // Reset the URL to remove any query parameters
-    navigate("/NC-Freelance-Project/Exhibition-Curator/all-artworks");
+    navigate("/all-artworks");
     window.location.reload();
   };
 
@@ -31,15 +31,15 @@ function NavBar() {
           </Col>
 
           <Col md={2}>
-            <Link to="/NC-Freelance-Project/Exhibition-Curator/all-artworks" onClick={handleAllArtworksClick}>All Artworks</Link>
+            <Link to="/all-artworks/" onClick={handleAllArtworksClick}>All Artworks</Link>
           </Col>
 
           <Col md={2}>
-            <Link to="/NC-Freelance-Project/Exhibition-Curator/detailed-search" onClick={()=> {window.reload()}} >Detailed Search</Link>
+            <Link to="/detailed-search" onClick={()=> {window.reload()}} >Detailed Search</Link>
           </Col>
 
           <Col md={2}>
-            <Link to="/NC-Freelance-Project/Exhibition-Curator/saved-exhibitions">Saved Exhibitions</Link>
+            <Link to="/saved-exhibitions">Saved Exhibitions</Link>
           </Col>
 
           {/* <Col md={2}>

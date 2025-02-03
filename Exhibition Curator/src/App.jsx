@@ -39,7 +39,7 @@ return (
     <NavBar />
       <Routes>
 
-        <Route path="/NC-Freelance-Project/Exhibition-Curator/" 
+        <Route path="/" 
         element={
           <Row>
             <Col>
@@ -49,27 +49,27 @@ return (
           }
         />
 
-        <Route path="/NC-Freelance-Project/Exhibition-Curator/met-artwork/:objectID" element={
+        <Route path="/met-artwork/:objectID" element={
           <IndividualArtwork museum = {museum} artPiece={artPiece} setArtPiece={setArtPiece} loading={loading} setLoading={setLoading} />
         } />
 
-        <Route path="/NC-Freelance-Project/Exhibition-Curator/vam-artwork/:objectID" element={
+        <Route path="/vam-artwork/:objectID" element={
           <VamIndividualArtwork museum = {museum} artPiece={artPiece} setArtPiece={setArtPiece} loading={loading} setLoading={setLoading} />
         } />
 
-        <Route path="/NC-Freelance-Project/Exhibition-Curator/all-artworks/" element={
+        <Route path="/all-artworks/" element={
           <AllArtworks artworks={artworks} setArtworks={setArtworks} loading={loading} setLoading = {setLoading} validObjectIDs= {validObjectIDs} setValidObjectIDs={setValidObjectIDs} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} museum={museum} setMuseum={setMuseum} handleMuseumChange = {handleMuseumChange}/>
           } 
         />
 
-        <Route path="/NC-Freelance-Project/Exhibition-Curator/detailed-search" element={
+        <Route path="/detailed-search" element={
           <DetailedSearch artworks={artworks} setArtworks={setArtworks} loading={loading} setLoading = {setLoading} validObjectIDs= {validObjectIDs} setValidObjectIDs={setValidObjectIDs} currentPage={currentPage} setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage} museum={museum} setMuseum={setMuseum} handleMuseumChange = {handleMuseumChange} searchInitiated={searchInitiated} setSearchInitiated={setSearchInitiated}/>
           }
         />
 
-        <Route path="/NC-Freelance-Project/Exhibition-Curator/saved-exhibitions" element={<SavedExhibitions />} />
+        <Route path="/saved-exhibitions" element={<SavedExhibitions />} />
 
-        <Route path="/NC-Freelance-Project/Exhibition-Curator/exhibition/:exhibitionName" element={<ViewExhibition />} />
+        <Route path="/exhibition/:exhibitionName" element={<ViewExhibition />} />
 
       </Routes>
 

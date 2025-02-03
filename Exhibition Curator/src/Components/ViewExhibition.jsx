@@ -64,8 +64,8 @@ function ViewExhibition() {
               variant="dark"
               onClick={() => navigate(
                 artPiece.museum === "vam"
-                  ? `/NC-Freelance-Project/Exhibition-Curator/vam-artwork/${artPiece.systemNumber}`
-                  : `/NC-Freelance-Project/Exhibition-Curator/met-artwork/${artPiece.objectID}`
+                  ? `/vam-artwork/${artPiece.systemNumber}`
+                  : `/met-artwork/${artPiece.objectID}`
               )}
             >
               View Artwork

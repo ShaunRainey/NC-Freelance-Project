@@ -1,8 +1,21 @@
 {
-  "rewrites": [
+  "builds": [
     {
-      "source": "/NC-Freelance-Project/Exhibition-Curator/(.*)",
-      "destination": "/$1"
+      "src": "vite.config.js",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/NC-Freelance-Project/Exhibition-Curator/(.*)",
+      "dest": "/$1"
+    },
+    {
+      "src": "/NC-Freelance-Project/Exhibition-Curator/(.*)",
+      "dest": "/index.html"
     }
   ]
 }

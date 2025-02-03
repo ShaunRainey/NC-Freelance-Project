@@ -28,7 +28,7 @@ function SavedExhibitions() {
               <Row>
                 <Col xs={6}>
                   <span
-                    onClick={() => navigate(`/NC-Freelance-Project/Exhibition-Curator/exhibition/${exhibition}`)}
+                    onClick={() => navigate(`/exhibition/${exhibition}`)}
                     style={{ cursor: "pointer", fontWeight: "bold" }}
                   >
                     {exhibition}
