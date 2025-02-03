@@ -7,5 +7,5 @@ export default defineConfig({
   build: {
     outDir: 'dist',
   },
-  base: '/NC-Freelance-Project/Exhibition-Curator/', // Ensure this is correct
-});
+  base: '/NC-Freelance-Project/Exhibition-Curator/', // ensure this is correct
+})
