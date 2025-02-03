@@ -16,14 +16,14 @@ const PageBar = ({ currentPage, totalPages, onPageChange, maxVisiblePages = 5 })
     <div className="Pagination">
       {/* First and Previous Buttons */}
       <Button
-        variant="secondary"
+        variant="dark"
         disabled={currentPage === 1 || currentPage === 2}
         onClick={() => onPageChange(currentPage - 2)}
       >
         {"<<"}
       </Button>
       <Button
-        variant="secondary"
+        variant="dark"
         disabled={currentPage === 1}
         onClick={() => onPageChange(currentPage - 1)}
       >
@@ -34,7 +34,7 @@ const PageBar = ({ currentPage, totalPages, onPageChange, maxVisiblePages = 5 })
       {pages.map((page) => (
         <Button
           key={page}
-          variant={currentPage === page ? "primary" : "secondary"}
+          variant={currentPage === page ? "secondary" : "dark"}
           onClick={() => onPageChange(page)}
         >
           {page}
@@ -43,14 +43,14 @@ const PageBar = ({ currentPage, totalPages, onPageChange, maxVisiblePages = 5 })
 
       {/* Next and Last Buttons */}
       <Button
-        variant="secondary"
+        variant="dark"
         disabled={currentPage === totalPages}
         onClick={() => onPageChange(currentPage + 1)}
       >
         {">"}
       </Button>
       <Button
-        variant="secondary"
+        variant="dark"
         disabled={currentPage === totalPages || currentPage === totalPages -1}
         onClick={() => onPageChange(currentPage + 2)}
       >

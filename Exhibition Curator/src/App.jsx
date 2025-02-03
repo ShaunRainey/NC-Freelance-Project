@@ -50,11 +50,11 @@ return (
         />
 
         <Route path="/met-artwork/:objectID" element={
-          <IndividualArtwork artPiece={artPiece} setArtPiece={setArtPiece} loading={loading} setLoading={setLoading} />
+          <IndividualArtwork museum = {museum} artPiece={artPiece} setArtPiece={setArtPiece} loading={loading} setLoading={setLoading} />
         } />
 
         <Route path="/vam-artwork/:objectID" element={
-          <VamIndividualArtwork artPiece={artPiece} setArtPiece={setArtPiece} loading={loading} setLoading={setLoading} />
+          <VamIndividualArtwork museum = {museum} artPiece={artPiece} setArtPiece={setArtPiece} loading={loading} setLoading={setLoading} />
         } />
 
         <Route path="/all-artworks/" element={
@@ -68,6 +68,7 @@ return (
         />
 
         <Route path="/saved-exhibitions" element={<SavedExhibitions />} />
+
         <Route path="/exhibition/:exhibitionName" element={<ViewExhibition />} />
 
       </Routes>

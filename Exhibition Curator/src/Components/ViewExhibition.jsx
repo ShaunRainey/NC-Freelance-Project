@@ -45,60 +45,46 @@ function ViewExhibition() {
   return (
     <Container>
       <h1>{exhibitionName} Exhibition</h1>
-      <Row>
-        {exhibition.artworks.map((artPiece) => (
-          <Col md={4} key={artPiece.systemNumber || artPiece.objectID}>
-            <Card>
-              {/* 🖼️ Display Image Based on Museum */}
-              {artPiece.museum === "vam" ? (
-                <Card.Img
-                  variant="top"
-                  src={`https://framemark.vam.ac.uk/collections/${artPiece.images?.[0]}/full/600,400/0/default.jpg`}
-                  alt={artPiece?.titles?.[0]?.title || "Artwork"}
-                />
-              ) : (
-                <Card.Img
-                  variant="top"
-                  src={artPiece?.primaryImageSmall || "https://via.placeholder.com/150"}
-                  alt={artPiece?.title || "Artwork"}
-                />
+      <Row className="g-4"> {/* Adds gap between cards */}
+  {exhibition.artworks.map((artPiece) => (
+    <Col md={4} key={artPiece.systemNumber || artPiece.objectID}>
+      <Card className="custom-card card-container">
+        <Card.Img
+          variant="top"
+          src={artPiece.museum === "vam"
+            ? `https://framemark.vam.ac.uk/collections/${artPiece.images?.[0]}/full/600,400/0/default.jpg`
+            : artPiece?.primaryImageSmall || "https://via.placeholder.com/150"}
+          alt={artPiece?.titles?.[0]?.title || artPiece?.title || "Artwork"}
+          className="Card-img"
+        />
+        <Card.Body className="custom-card-body">
+          <Card.Title className="card-title">{artPiece?.titles?.[0]?.title || artPiece?.title || "Untitled"}</Card.Title>
+          <div className="button-group">
+            <Button
+              variant="dark"
+              onClick={() => navigate(
+                artPiece.museum === "vam"
+                  ? `/vam-artwork/${artPiece.systemNumber}`
+                  : `/met-artwork/${artPiece.objectID}`
               )}
+            >
+              View Artwork
+            </Button>
+            <Button
+              variant="danger"
+              onClick={() => deleteArtwork(
+                artPiece.museum === "vam" ? artPiece.systemNumber : artPiece.objectID
+              )}
+            >
+              Delete
+            </Button>
+          </div>
+        </Card.Body>
+      </Card>
+    </Col>
+  ))}
+</Row>
 
-              <Card.Body>
-                <Card.Title>
-                  {artPiece?.titles?.[0]?.title || artPiece?.title || "Untitled"}
-                </Card.Title>
-                <Card.Text>
-                  {artPiece?.briefDescription || artPiece?.artistDisplayName || "No description available."}
-                </Card.Text>
-
-                {/* 🔗 View Artwork Button */}
-                <Button
-                  variant="primary"
-                  onClick={() => navigate(
-                    artPiece.museum === "vam"
-                      ? `/vam-artwork/${artPiece.systemNumber}`
-                      : `/met-artwork/${artPiece.objectID}`
-                  )}
-                >
-                  View Artwork
-                </Button>
-
-                {/* ❌ Delete Artwork Button */}
-                <Button
-                  variant="danger"
-                  onClick={() => deleteArtwork(
-                    artPiece.museum === "vam" ? artPiece.systemNumber : artPiece.objectID
-                  )}
-                  style={{ marginLeft: "10px" }}
-                >
-                  Delete
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
     </Container>
   );
 }

@@ -1,9 +1,8 @@
 function Loading() {
   return (
-    <div className="loader">
-      <p></p>
-      <p>Incoming Data!</p>
-    </div>
+    <div className="loading-container">
+      <div className="loader"></div>
+    </div> 
   );
 }
 
