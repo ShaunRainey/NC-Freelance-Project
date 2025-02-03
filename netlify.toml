@@ -1,7 +1,0 @@
-[build]
-  base = "Exhibition-Curator"
-  command = "npm run build"
-  publish = "Exhibition-Curator/dist"
-
-[functions]
-  directory = "Exhibition-Curator/netlify/functions"
