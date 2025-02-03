@@ -12,10 +12,6 @@
     {
       "src": "/NC-Freelance-Project/Exhibition-Curator/(.*)",
       "dest": "/$1"
-    },
-    {
-      "src": "/NC-Freelance-Project/Exhibition-Curator/(.*)",
-      "dest": "/index.html"
     }
   ]
 }
