@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/NC-Freelance-Project/Exhibition-Curator/(.*)",
-      "destination": "/$1"
-    }
-  ]
-}
