@@ -1,4 +1,4 @@
 [build]
-  base = "Exhibition Curator/src"  # Set base directory as src
-  command = "npm run build"
-  publish = "Exhibition Curator/src/build"  # Set correct publish directory for build output
+  base = "Exhibition Curator/src"
+  command = "npm install && npm run build"
+  publish = "Exhibition Curator/src/build"
